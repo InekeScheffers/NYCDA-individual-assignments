@@ -4,7 +4,7 @@ const fs = require('fs');
 //function as wrapper, so you can call this whole piece of code inside your app
 // the second parameter is callback so you can run the function in the second parameter
 // in app.js, it only runs when calcCompoundInterest is finished
-function calcCompoundInterest(filename,callback){
+function calcCompoundInterest(filename){
 
 	//helper funtion for prettyNr
 	// get at most 2 decimals behind dot
@@ -35,7 +35,7 @@ function calcCompoundInterest(filename,callback){
 		//check if it does read the json-file
 		//console.log(parsedData);
 
-		calculate(parsedData, functionsObject, callback);
+		calculate(parsedData, functionsObject);
 	})
 
 		//test if function is working, in this one customer.pension.endamount doesn't exist
@@ -43,7 +43,7 @@ function calcCompoundInterest(filename,callback){
 		//add key to object, start with 0, set end amount prop
 		// customer.pension.endamount = 0;
 		// change to keep track of 3 different interest cases
-	function calculate(customer, functionsObject, callback){
+	function calculate(customer, functionsObject){
 		customer.pension.endamount = {
 			pessimistic: customer.finances.startcapital,
 			average: 	 customer.finances.startcapital,
@@ -78,8 +78,14 @@ function calcCompoundInterest(filename,callback){
 			customer.pension.endamount.average 		*= customer.pension.interest.average;
 			customer.pension.endamount.optimistic 	*= customer.pension.interest.optimistic;
 		}
-		
-	callback(customer, functionsObject);
+		//output our data
+		console.log("Welcome " + customer.name + " to our advanced pension planner!");
+		console.log("You're starting with: " + customer.finances.startcapital + " and add a monthly amount of " + customer.finances.monthlyadd);
+		console.log("When you retire at age: " + customer.pension.age + " you will have the following: ")
+		//output calculation stuff
+		console.log("In a pessimistic scenario: €" 	+ functionsObject.prettyNr(customer.pension.endamount.pessimistic));
+		console.log("In a average scenario: €" 		+ functionsObject.prettyNr(customer.pension.endamount.average));
+		console.log("In a optimistic scenario: €" 	+ functionsObject.prettyNr(customer.pension.endamount.optimistic));
 	}
 }
 
