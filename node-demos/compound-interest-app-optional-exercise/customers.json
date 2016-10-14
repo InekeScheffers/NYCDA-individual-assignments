@@ -1,0 +1,50 @@
+[{
+	"name": "Ineke",
+	"age": 26,
+	"finances": {
+		"startcapital": 1000,
+		"monthlyadd": 100
+	},
+	"pension": {
+		"age": 65,
+		"interest": {
+			"pessimistic": 1.02,
+			"average": 1.04,
+			"optimistic": 1.08
+		}
+	}
+},
+{
+	"name": "Jeroen",
+	"age": 29,
+	"finances": {
+		"startcapital": 1000,
+		"monthlyadd": 200
+	},
+	"pension": {
+		"age": 65,
+		"interest": {
+			"pessimistic": 1.03,
+			"average": 1.05,
+			"optimistic": 1.09
+		}
+	}
+},
+{
+	"name": "Marjolein",
+	"age": 24,
+	"finances": {
+		"startcapital": 1000,
+		"monthlyadd": 75
+	},
+	"pension": {
+		"age": 65,
+		"interest": {
+			"pessimistic": 1.02,
+			"average": 1.06,
+			"optimistic": 1.08
+		}
+	}
+}
+
+]

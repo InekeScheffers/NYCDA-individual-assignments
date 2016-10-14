@@ -21,4 +21,4 @@ readParsedObject('countries.json', function(readCountries){
 			console.log("Country: " + readCountries[i].name + "\nTop Level Domain: " + readCountries[i].topLevelDomain);
 		}
 	}
-})
+}
