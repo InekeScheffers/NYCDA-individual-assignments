@@ -1,7 +1,7 @@
 var outputCalcCompound = require(__dirname + '/json-file-reader.js');
 
 // function to calculate compound interest from a customer object
-outputCalcCompound('customer.json', function pensionCalcTemplate(customer, functionsObject){
+outputCalcCompound('customer.json', function pensionOutput(customer, functionsObject){
 	//output our data
 	console.log("Welcome " + customer.name + " to our advanced pension planner!");
 	console.log("You're starting with: " + customer.finances.startcapital + " and add a monthly amount of " + customer.finances.monthlyadd);
