@@ -1,0 +1,19 @@
+{
+  "name": "express-demo",
+  "version": "0.0.1",
+  "description": "little example of how express works",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "server",
+    "demo"
+  ],
+  "author": "ineke",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
