@@ -1,0 +1,18 @@
+html
+	head
+	body
+		h1 User Information App
+		ul
+			li 
+				a(href='/') home
+			li 
+				a(href='')
+					h3 display all users
+			li 
+				a(href='search-user') search user
+			li 
+				a(href='add-user') add user
+		h2 All users
+		ul
+			each thing in data
+				li #{thing.firstname} #{thing.lastname}: #{thing.email}
