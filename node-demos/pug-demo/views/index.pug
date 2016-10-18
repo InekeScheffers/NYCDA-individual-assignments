@@ -1,0 +1,14 @@
+html
+	head
+	//- body same indentation as head, otherwise it would be INSIDE the head
+	body
+		h1 Super Mega Ukelele
+		p King Bob!
+		ul
+			each thing in data
+				//- you need to use #{} to say you're loading dynamic stuff variables, otherwise it will just say literally thing.name
+				li #{thing.name}'s toy is a #{thing.toy}
+//- p King Bob!
+//- each thing in data
+	//- p #{thing.name}
+	//- p #{thing.toy}
