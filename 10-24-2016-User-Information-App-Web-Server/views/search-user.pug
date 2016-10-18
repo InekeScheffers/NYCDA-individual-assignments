@@ -14,3 +14,8 @@ html
 				a(href='add-user') add user
 		h2 Search user
 		//- search bar
+		form(method='POST' action='/result-search')
+			div.form-group
+				label(for = 'search') Search: 
+				input#search.form-control(type ='text', placeholder ='First- or Lastname' search ='search')
+			button.btn.btn-primary(type='submit') Search user

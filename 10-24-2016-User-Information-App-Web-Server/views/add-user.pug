@@ -14,3 +14,14 @@ html
 					h3 add user
 		h2 Add user
 		//- add firstname, add lastname, add email bar
+		form(method='POST' action='/all-users')
+			div.form-group
+				label(for = 'firstname') Firstname: 
+				input#firstname.form-control(type ='text', placeholder ='Firstname' name ='firstname')
+			div.form-group
+				label(for = 'lastname') Lastname: 
+				input#lastname.form-control(type ='text', placeholder ='Lastname' name ='lastname')
+			div.form-group
+				label(for = 'email') Email: 
+				input#email.form-control(type ='text', placeholder ='name@email.com' name ='email')
+			button.btn.btn-primary(type='submit') Add user
