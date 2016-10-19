@@ -1,5 +1,6 @@
 const express = require('express') 	// require express library
 const fs = require('fs')			// require fs library
+//const konami = require('konami-js') // doesn't work
 const bodyParser = require('body-parser')
 const app = express()				// create app as instance of express
 //app.use(bodyParser.json());
@@ -51,11 +52,17 @@ app.post('/result-search', (request, response) => {
 			// console.log(parsedData[i].firstname)
 			if(parsedData[i].firstname === request.body.search || parsedData[i].lastname === request.body.search){
 				//console.log(parsedData[i])
+				//push object to empty result-array for all users that have the same first or lastname as the search query
 				result.push(parsedData[i]);
 			}
 		}
-		console.log("About to render the result-search.pug page...");
-		response.render('result-search', {data: result})	
+		// if user wasn't found because search field was empty, user doesn't exist or user is misspelled stay on page and give alert message, else go to results and show result
+		if(result.length === 0) {
+			response.render('search-user', {data: result})
+		} else {
+			console.log("About to render the result-search.pug page...");
+			response.render('result-search', {data: result})
+		}	
 	})
 })
 
