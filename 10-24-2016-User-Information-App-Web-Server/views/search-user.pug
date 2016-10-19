@@ -21,10 +21,4 @@ html
 			button.btn.btn-primary(type='submit') Search user
 		//- nice to have alert when name isn't found in json file
 		if data.length === 0
-			//- h2 Oops, didn't find any users
-			//- 	ul
-			//- 		li 
-			//- 			a(href='/') search again
-			//- 		li 
-			//- 			a(href='all-users') add user
 			script(type='text/javascript') alert("Oops, didn't find user. Search again (remember to start with a capital letter) or add this new user!")

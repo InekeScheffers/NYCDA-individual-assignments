@@ -1,6 +1,5 @@
 const express = require('express') 	// require express library
 const fs = require('fs')			// require fs library
-//const konami = require('konami-js') // doesn't work
 const bodyParser = require('body-parser')
 const app = express()				// create app as instance of express
 //app.use(bodyParser.json());
@@ -67,19 +66,23 @@ app.post('/result-search', (request, response) => {
 })
 
 app.post('/all-users', (request, response) => {
-	//console.log(request.body);
-	fs.readFile(__dirname + '/users.json', (err, data) => {
-		if (err) throw err;
-		let parsedData = JSON.parse(data);
-		//console.log(parsedData);
-		parsedData.push(request.body);
-		var json = JSON.stringify(parsedData);
-		console.log(json);
-		fs.writeFile(__dirname + '/users.json', json, 'utf8', function(mistake){
-			if (mistake) throw mistake;
+	var addedUser = [];
+	addedUser.push(request.body);
+	if(!request.body['firstname'] || !request.body['lastname'] || !request.body['email']){
+		response.render('add-user', {data: addedUser})
+	} else {
+		fs.readFile(__dirname + '/users.json', (err, data) => {
+			if (err) throw err;
+			let parsedData = JSON.parse(data);
+			parsedData.push(request.body);
+			var json = JSON.stringify(parsedData);
+			//console.log(json);
+			fs.writeFile(__dirname + '/users.json', json, 'utf8', function(mistake){
+				if (mistake) throw mistake;
+			})
+			response.render('all-users', {data: parsedData})	
 		})
-		response.render('all-users', {data: parsedData})	
-	})
+	}
 })
 
 app.listen(8000, () =>{
