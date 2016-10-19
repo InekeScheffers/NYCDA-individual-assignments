@@ -2,8 +2,18 @@ html
 	head
 	body
 		h1 User Information App
+		ul
+			li 
+				a(href='/') home
+			li 
+				a(href='all-users') display all users
+			li 
+				a(href='search-user') search user
+			li 
+				a(href='add-user') add user
 		//- nice to have: error, try again
 		//- nice to have: Found users for 'naam die ingevuld is':
+		//- nice to have: maak van eerste letter hoofdletter en de rest kleine zodat het ook werkt als je verkeerd typt
 		h2 Found users:
 		ul
 			each thing in data

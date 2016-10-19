@@ -54,18 +54,26 @@ app.post('/result-search', (request, response) => {
 				result.push(parsedData[i]);
 			}
 		}
+		console.log("About to render the result-search.pug page...");
 		response.render('result-search', {data: result})	
 	})
 })
 
-// app.post(/*--data "firstname=value&lastname=value&email=value", */'/all-users', (request, response) => {
-// 	console.log("About to render the all-users.pug page with the new added user...");
-// 	fs.readFile(__dirname + '/users.json', (err, data) => {
-// 		if (err) throw err;
-// 		let parsedData = JSON.parse(data);
-// 		response.render('all-users', {data: parsedData})
-// 	})
-// })
+app.post('/all-users', (request, response) => {
+	//console.log(request.body);
+	fs.readFile(__dirname + '/users.json', (err, data) => {
+		if (err) throw err;
+		let parsedData = JSON.parse(data);
+		//console.log(parsedData);
+		parsedData.push(request.body);
+		var json = JSON.stringify(parsedData);
+		console.log(json);
+		fs.writeFile(__dirname + '/users.json', json, 'utf8', function(mistake){
+			if (mistake) throw mistake;
+		})
+		response.render('all-users', {data: parsedData})	
+	})
+})
 
 app.listen(8000, () =>{
 	console.log('server is running');
