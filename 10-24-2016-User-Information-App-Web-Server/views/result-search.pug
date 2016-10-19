@@ -2,3 +2,9 @@ html
 	head
 	body
 		h1 User Information App
+		//- nice to have: error, try again
+		//- nice to have: Found users for 'naam die ingevuld is':
+		h2 Found users:
+		ul
+			each thing in data
+				li #{thing.firstname} #{thing.lastname}: #{thing.email}

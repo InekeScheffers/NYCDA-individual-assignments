@@ -41,7 +41,21 @@ app.get('/add-user', (request, response) => {
 }) 
 
 app.post('/result-search', (request, response) => {
-	console.log(request.body);
+	//console.log(request.body.search); //Value, console.log(request.body); //{search: 'Value'}
+	fs.readFile(__dirname + '/users.json', (err, data) => {
+		if (err) throw err;
+		let parsedData = JSON.parse(data);
+		//console.log(parsedData[1].firstname); //Ulysses
+		var result = [];
+		for (var i = 0; i < parsedData.length; i++) {
+			// console.log(parsedData[i].firstname)
+			if(parsedData[i].firstname === request.body.search || parsedData[i].lastname === request.body.search){
+				//console.log(parsedData[i])
+				result.push(parsedData[i]);
+			}
+		}
+		response.render('result-search', {data: result})	
+	})
 })
 
 // app.post(/*--data "firstname=value&lastname=value&email=value", */'/all-users', (request, response) => {
