@@ -2,6 +2,7 @@ html
 	head
 	body
 		h1 User Information App
+		//- navigation, bigger text to show on which page you are currently
 		ul
 			li 
 				a(href='/') home
@@ -13,7 +14,9 @@ html
 			li 
 				a(href='add-user') add user
 		h2 All users
+		//- show a list of all users from the user.json file, the data read with the readFile function which passes all data to this file with {data: parsedData}
 		ul
 			each thing in data
 				li #{thing.firstname} #{thing.lastname}: #{thing.email}
+		//- konami code
 		script(type='text/javascript' src='konami.js')

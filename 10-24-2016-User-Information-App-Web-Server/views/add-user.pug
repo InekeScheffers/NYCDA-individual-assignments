@@ -2,6 +2,7 @@ html
 	head
 	body
 		h1 User Information App
+		//- navigation, bigger text to show on which page you are currently
 		ul
 			li 
 				a(href='/') home
@@ -27,14 +28,12 @@ html
 			button.btn.btn-primary(type='submit' id='button') Add user 
 			//- alert when not all fields are filled out
 			script(type='text/javascript' src='main.js')
+			//- konami code
 			script(type='text/javascript' src='konami.js')
 
-
+			//- earlier solution, that caused the alert also to trigger when you enter the page (with empty fields)
 			//- if(!data['firstname'] || !data['lastname'] || !data['email']){ 
 			//- 	document.getElementById('button').onclick = function() {
 			//- 		alert("Oops, you have to fill in all fields to add a user. Try again!")
 			//- 	}
 			//- }
-
-			//- script.
-			//- 	var data = '#{data}'

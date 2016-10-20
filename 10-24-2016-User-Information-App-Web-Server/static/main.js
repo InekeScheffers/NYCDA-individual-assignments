@@ -4,5 +4,3 @@ document.getElementById('button').onclick = function() {
 		alert("Oops, you have to fill in all fields to add a user. Try again!")
 	}
 }
-
-//konami on document ready?

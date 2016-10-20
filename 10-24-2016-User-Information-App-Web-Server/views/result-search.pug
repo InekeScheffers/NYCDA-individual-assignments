@@ -2,6 +2,7 @@ html
 	head
 	body
 		h1 User Information App
+		//- navigation, to get back to other pages in the app
 		ul
 			li 
 				a(href='/') home
@@ -11,10 +12,11 @@ html
 				a(href='search-user') search user
 			li 
 				a(href='add-user') add user
-		//- nice to have: Found users for 'naam die ingevuld is':
-		//- nice to have: maak van eerste letter hoofdletter en de rest kleine zodat het ook werkt als je verkeerd typt
+		//- nice to have: Found users for 'searchQuery', passed to this pug file via: searchQuery: request.body.search}:
 		h2 Found users for '#{searchQuery}':
+		//- list of users that matched with their first- or lastname with the searchQuery, passed to this pug file via: data: result
 		ul
 			each thing in data
 				li #{thing.firstname} #{thing.lastname}: #{thing.email}
+		//- konami code
 		script(type='text/javascript' src='konami.js')

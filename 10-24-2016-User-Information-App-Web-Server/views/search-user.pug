@@ -2,6 +2,7 @@ html
 	head
 	body
 		h1 User Information App
+		//- navigation, bigger text to show on which page you are currently
 		ul
 			li 
 				a(href='/') home
@@ -15,11 +16,11 @@ html
 		h2 Search user
 		//- search bar
 		form(method='POST' action='/result-search')
-			div.form-group
-				label(for = 'search') Search: 
+			div.form-group 
 				input#search.form-control(type ='text', placeholder ='First- or Lastname' name ='search')
-			button.btn.btn-primary(type='submit') Search user
-		//- alert when name isn't found in json file
+				button.btn.btn-primary(type='submit') Search
+		//- alert when name isn't found in json file, so the array named data is empty: passed to this pug-file via data: result
 		if data.length === 0
 			script(type='text/javascript') alert("Oops, didn't find user. Search again (remember to start with a capital letter) or add this new user!")
+		//- konami code
 		script(type='text/javascript' src='konami.js')

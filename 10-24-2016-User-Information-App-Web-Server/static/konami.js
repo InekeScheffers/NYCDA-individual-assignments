@@ -4,12 +4,12 @@ var allowedKeys = {
   38: 'up',
   39: 'right',
   40: 'down',
-  65: 'b',
-  66: 'a'
+  66: 'b',
+  65: 'a'
 };
 
 // the 'official' Konami Code sequence
-var konamiCode = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'a', 'b'];
+var konamiCode = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a'];
 
 // a variable to remember the 'position' the user has reached so far.
 var konamiCodePosition = 0;
