@@ -13,7 +13,7 @@ html
 				a(href='add-user') add user
 		//- nice to have: Found users for 'naam die ingevuld is':
 		//- nice to have: maak van eerste letter hoofdletter en de rest kleine zodat het ook werkt als je verkeerd typt
-		h2 Found users:
+		h2 Found users for '#{searchedUser}':
 		ul
 			each thing in data
 				li #{thing.firstname} #{thing.lastname}: #{thing.email}

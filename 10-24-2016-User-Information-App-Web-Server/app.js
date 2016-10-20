@@ -2,8 +2,9 @@ const express = require('express') 	// require express library
 const fs = require('fs')			// require fs library
 const bodyParser = require('body-parser')
 const app = express()				// create app as instance of express
-//app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}))
+
+app.use(express.static('./static/'))
 
 app.set('view engine', 'pug') // set view engine to pug
 app.set('views', __dirname + '/views') //set where the view engine is located
@@ -42,6 +43,8 @@ app.get('/add-user', (request, response) => {
 
 app.post('/result-search', (request, response) => {
 	//console.log(request.body.search); //Value, console.log(request.body); //{search: 'Value'}
+	//var searchedUser = request.body.search;
+	//console.log(searchedUser)
 	fs.readFile(__dirname + '/users.json', (err, data) => {
 		if (err) throw err;
 		let parsedData = JSON.parse(data);

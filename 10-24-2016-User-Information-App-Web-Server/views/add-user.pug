@@ -14,7 +14,7 @@ html
 					h3 add user
 		h2 Add user
 		//- add firstname, add lastname, add email bar
-		form(method='POST' action='/all-users')
+		form(name='user-form' method='POST' action='/all-users')
 			div.form-group
 				label(for = 'firstname') Firstname: 
 				input#firstname.form-control(type ='text', placeholder ='Firstname' name ='firstname')
@@ -24,6 +24,16 @@ html
 			div.form-group
 				label(for = 'email') Email: 
 				input#email.form-control(type ='text', placeholder ='name@email.com' name ='email')
-			button.btn.btn-primary(type='submit') Add user
-		if !data['firstname'] || !data['lastname'] || !data['email']
-			script(type='text/javascript') alert("Oops, you have to fill in all fields to add a user. Try again!")
+			button.btn.btn-primary(type='submit' id='button') Add user 
+			//- alert when not all fields are filled out
+			script(type='text/javascript' src='main.js')
+
+
+			//- if(!data['firstname'] || !data['lastname'] || !data['email']){ 
+			//- 	document.getElementById('button').onclick = function() {
+			//- 		alert("Oops, you have to fill in all fields to add a user. Try again!")
+			//- 	}
+			//- }
+
+			//- script.
+			//- 	var data = '#{data}'

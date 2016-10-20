@@ -19,6 +19,6 @@ html
 				label(for = 'search') Search: 
 				input#search.form-control(type ='text', placeholder ='First- or Lastname' name ='search')
 			button.btn.btn-primary(type='submit') Search user
-		//- nice to have alert when name isn't found in json file
+		//- alert when name isn't found in json file
 		if data.length === 0
 			script(type='text/javascript') alert("Oops, didn't find user. Search again (remember to start with a capital letter) or add this new user!")
