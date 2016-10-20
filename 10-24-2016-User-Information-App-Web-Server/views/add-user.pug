@@ -26,8 +26,9 @@ html
 				label(for = 'email') Email: 
 				input#email.form-control(type ='text', placeholder ='name@email.com' name ='email')
 			button.btn.btn-primary(type='submit' id='button') Add user 
-			//- alert when not all fields are filled out
-			script(type='text/javascript' src='main.js')
+			//- alert when not all fields are filled out, so if fieldEmptyError is true
+			if fieldEmptyError
+				script(type='text/javascript') alert('Oops, you have to fill in all fields to add a user. Try again!')
 			//- konami code
 			script(type='text/javascript' src='konami.js')
 
