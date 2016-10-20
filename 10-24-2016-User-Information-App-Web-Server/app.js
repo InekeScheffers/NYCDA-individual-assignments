@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const app = express()				// create app as instance of express
 app.use(bodyParser.urlencoded({ extended: true}))
 
-app.use(express.static('./static/'))
+app.use(express.static(__dirname + '/static/'))
 
 app.set('view engine', 'pug') // set view engine to pug
 app.set('views', __dirname + '/views') //set where the view engine is located
