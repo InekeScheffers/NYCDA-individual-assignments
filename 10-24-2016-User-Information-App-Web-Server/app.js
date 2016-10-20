@@ -63,7 +63,7 @@ app.post('/result-search', (request, response) => {
 			response.render('search-user', {data: result})
 		} else {
 			console.log("About to render the result-search.pug page...");
-			response.render('result-search', {data: result, name: request.body.search})
+			response.render('result-search', {data: result, searchQuery: request.body.search})
 		}	
 	})
 })
