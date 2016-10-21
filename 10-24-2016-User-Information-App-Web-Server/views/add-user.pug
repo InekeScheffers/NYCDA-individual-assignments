@@ -5,8 +5,11 @@ html
 		link(type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection")
 		//- Let browser know website is optimized for mobile
 		meta(name="viewport" content="width=device-width, initial-scale=1.0")
+		//- own css
+		link(type="text/css" rel="stylesheet" href="css/style.css")
 		title User Information App
 	body
+		//- navigation using materialize
 		nav
 			div(class='nav-wrapper')
 				a(href='/' class='brand-logo right') User Information App
@@ -19,6 +22,7 @@ html
 						a(href='search-user') Search user
 					li(class='active') 
 						a(href='add-user') Add user
+				//- hamburger menu when viewed on mobile
 				ul(class='side-nav' id='mobile-demo')
 					li 
 						a(href='all-users') Display all users
@@ -28,6 +32,8 @@ html
 						a(href='add-user') Add user
 		h1 Add user
 		//- add firstname, add lastname, add email bar
+		if fieldEmptyError
+				p(class="errorMessage") #{errorMessage}
 		form(name='user-form' method='POST' action='/all-users')
 			div.form-group
 				label(for = 'firstname') Firstname: 
@@ -40,8 +46,8 @@ html
 				input#email.form-control(type ='text', placeholder ='name@email.com' name ='email')
 			button.btn.btn-primary(type='submit' id='button') Add user 
 			//- alert when not all fields are filled out, so if fieldEmptyError is true
-			if fieldEmptyError
-				script(type='text/javascript') alert('Oops, you have to fill in all fields to add a user. Try again!')
+				//- if fieldEmptyError
+				//- 	script(type='text/javascript') alert('Oops, you have to fill in all fields to add a user. Try again!')
 		//- jquery
 		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
 		//- materialize js

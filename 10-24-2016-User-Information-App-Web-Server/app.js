@@ -72,7 +72,7 @@ app.post('/result-search', (request, response) => {
 
 app.post('/all-users', (request, response) => {
 	if(!request.body['firstname'] || !request.body['lastname'] || !request.body['email']){ // if one of the fields is empty
-		response.render('add-user', {fieldEmptyError: true}) // stay on add-user, pass error to add-user so it can give an alert to fill out all fields to add a user
+		response.render('add-user', {fieldEmptyError: true, errorMessage: 'Try again. Please fill out all fields to add a user.'}) // stay on add-user, pass error to add-user so it can give an alert to fill out all fields to add a user
 	} else {
 		fs.readFile(__dirname + '/users.json', (err, data) => { // if all fields are filled out
 			if (err) throw err;
