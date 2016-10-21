@@ -5,6 +5,8 @@ html
 		link(type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection")
 		//- Let browser know website is optimized for mobile
 		meta(name="viewport" content="width=device-width, initial-scale=1.0")
+		//- own css
+		link(type="text/css" rel="stylesheet" href="css/style.css")
 		title User Information App
 	body
 		div(class="container")
@@ -29,7 +31,7 @@ html
 							a(href='search-user') Search user
 						li
 							a(href='add-user') Add user
-		div(class="container")
+		div(class="container container-content")
 			//- nice to have: Found users for 'searchQuery', passed to this pug file via: searchQuery: request.body.search}:
 			h1 Found users for '#{searchQuery}':
 			//- list of users that matched with their first- or lastname with the searchQuery, passed to this pug file via: data: result

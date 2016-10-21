@@ -35,6 +35,12 @@ document.addEventListener('keydown', function(e) {
 });
 
 function activateCheats() {
+  document.body.style.backgroundImage = "url('https://media.giphy.com/media/9WoajAy4xBoIg/giphy.gif')";
   var audio = new Audio('../media/pug.mp3');
   audio.play();
+
+  setTimeout(function() {
+    audio.pause();
+    document.body.style.backgroundImage = 'none';
+  }, 4000);
 }

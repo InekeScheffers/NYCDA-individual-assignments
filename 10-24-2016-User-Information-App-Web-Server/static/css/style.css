@@ -1,3 +1,16 @@
+body {
+	background-color: #f8f8f8;
+}
+
+.nav-wrapper {
+	background-color: purple;
+}
+
+.container-content {
+	padding: 15px;
+	background-color: white;
+}
+
 .errorMessage {
 	color: red;
 }
