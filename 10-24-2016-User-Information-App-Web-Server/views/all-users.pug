@@ -7,32 +7,34 @@ html
 		meta(name="viewport" content="width=device-width, initial-scale=1.0")
 		title User Information App
 	body
-		//- navigation using materialize
-		nav
-			div(class='nav-wrapper')
-				a(href='/' class='brand-logo right') User Information App
-				a(href='' data-activates='mobile-demo' class='button-collapse')
-					i(class='material-icons') menu
-				ul(id='nav-mobile' class='left hide-on-med-and-down')
-					li(class='active') 
-						a(href='all-users') Display all users
-					li 
-						a(href='search-user') Search user
-					li
-						a(href='add-user') Add user
-				//- hamburger menu when viewed on mobile
-				ul(class='side-nav' id='mobile-demo')
-					li(class='active')
-						a(href='all-users') Display all users
-					li 
-						a(href='search-user') Search user
-					li
-						a(href='add-user') Add user
-		h1 All users
-		//- show a list of all users from the user.json file, the data read with the readFile function which passes all data to this file with {data: parsedData}
-		ul
-			each thing in data
-				li #{thing.firstname} #{thing.lastname}: #{thing.email}
+		div(class="container")
+			//- navigation using materialize
+			nav
+				div(class='nav-wrapper')
+					a(href='/' class='brand-logo right') User Information App
+					a(href='' data-activates='mobile-demo' class='button-collapse')
+						i(class='material-icons') menu
+					ul(id='nav-mobile' class='left hide-on-med-and-down')
+						li(class='active') 
+							a(href='all-users') Display all users
+						li 
+							a(href='search-user') Search user
+						li
+							a(href='add-user') Add user
+					//- hamburger menu when viewed on mobile
+					ul(class='side-nav' id='mobile-demo')
+						li(class='active')
+							a(href='all-users') Display all users
+						li 
+							a(href='search-user') Search user
+						li
+							a(href='add-user') Add user
+		div(class="container")
+			h1 All users
+			//- show a list of all users from the user.json file, the data read with the readFile function which passes all data to this file with {data: parsedData}
+			ul
+				each thing in data
+					li #{thing.firstname} #{thing.lastname}: #{thing.email}
 		//- jquery
 		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
 		//- materialize js

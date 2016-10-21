@@ -7,33 +7,35 @@ html
 		meta(name="viewport" content="width=device-width, initial-scale=1.0")
 		title User Information App
 	body
-		//- navigation using materialize
-		nav
-			div(class='nav-wrapper')
-				a(href='/' class='brand-logo right') User Information App
-				a(href='' data-activates='mobile-demo' class='button-collapse')
-					i(class='material-icons') menu
-				ul(id='nav-mobile' class='left hide-on-med-and-down')
-					li 
-						a(href='all-users') Display all users
-					li 
-						a(href='search-user') Search user
-					li
-						a(href='add-user') Add user
-				//- hamburger menu when viewed on mobile
-				ul(class='side-nav' id='mobile-demo')
-					li
-						a(href='all-users') Display all users
-					li 
-						a(href='search-user') Search user
-					li
-						a(href='add-user') Add user
-		//- nice to have: Found users for 'searchQuery', passed to this pug file via: searchQuery: request.body.search}:
-		h1 Found users for '#{searchQuery}':
-		//- list of users that matched with their first- or lastname with the searchQuery, passed to this pug file via: data: result
-		ul
-			each thing in data
-				li #{thing.firstname} #{thing.lastname}: #{thing.email}
+		div(class="container")
+			//- navigation using materialize
+			nav
+				div(class='nav-wrapper')
+					a(href='/' class='brand-logo right') User Information App
+					a(href='' data-activates='mobile-demo' class='button-collapse')
+						i(class='material-icons') menu
+					ul(id='nav-mobile' class='left hide-on-med-and-down')
+						li 
+							a(href='all-users') Display all users
+						li 
+							a(href='search-user') Search user
+						li
+							a(href='add-user') Add user
+					//- hamburger menu when viewed on mobile
+					ul(class='side-nav' id='mobile-demo')
+						li
+							a(href='all-users') Display all users
+						li 
+							a(href='search-user') Search user
+						li
+							a(href='add-user') Add user
+		div(class="container")
+			//- nice to have: Found users for 'searchQuery', passed to this pug file via: searchQuery: request.body.search}:
+			h1 Found users for '#{searchQuery}':
+			//- list of users that matched with their first- or lastname with the searchQuery, passed to this pug file via: data: result
+			ul
+				each thing in data
+					li #{thing.firstname} #{thing.lastname}: #{thing.email}
 		//- jquery
 		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
 		//- materialize js

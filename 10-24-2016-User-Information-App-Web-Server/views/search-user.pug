@@ -9,38 +9,37 @@ html
 		link(type="text/css" rel="stylesheet" href="css/style.css")
 		title User Information App
 	body
-		//- navigation using materialize
-		nav
-			div(class='nav-wrapper')
-				a(href='/' class='brand-logo right') User Information App
-				a(href='' data-activates='mobile-demo' class='button-collapse')
-					i(class='material-icons') menu
-				ul(id='nav-mobile' class='left hide-on-med-and-down')
-					li(class='active') 
-						a(href='all-users') Display all users
-					li 
-						a(href='search-user') Search user
-					li
-						a(href='add-user') Add user
-				//- hamburger menu when viewed on mobile
-				ul(class='side-nav' id='mobile-demo')
-					li(class='active')
-						a(href='all-users') Display all users
-					li 
-						a(href='search-user') Search user
-					li
-						a(href='add-user') Add user
-		h1 Search user
-		if fieldEmptyError
-			p(class="errorMessage") #{errorMessage}
-		//- search bar
-		form(method='POST' action='/result-search')
-			div.form-group 
-				input#search.form-control(type ='text', placeholder ='First- or Lastname' name ='search')
-				button.btn.btn-primary(type='submit') Search
-		//- alert when name isn't found in json file, so the array named data is empty: passed to this pug-file via data: result
-		//- if data.length === 0
-		//- 	script(type='text/javascript') alert("Oops, didn't find user. Search again (remember to start with a capital letter) or add this new user!")
+		div(class="container")
+			//- navigation using materialize
+			nav
+				div(class='nav-wrapper')
+					a(href='/' class='brand-logo right') User Information App
+					a(href='' data-activates='mobile-demo' class='button-collapse')
+						i(class='material-icons') menu
+					ul(id='nav-mobile' class='left hide-on-med-and-down')
+						li(class='active') 
+							a(href='all-users') Display all users
+						li 
+							a(href='search-user') Search user
+						li
+							a(href='add-user') Add user
+					//- hamburger menu when viewed on mobile
+					ul(class='side-nav' id='mobile-demo')
+						li(class='active')
+							a(href='all-users') Display all users
+						li 
+							a(href='search-user') Search user
+						li
+							a(href='add-user') Add user
+		div(class="container")
+			h1 Search user
+			if fieldEmptyError
+				p(class="errorMessage") #{errorMessage}
+			//- search bar
+			form(method='POST' action='/result-search')
+				div.form-group 
+					input#search.form-control(type ='text', placeholder ='First- or Lastname' name ='search')
+					button.btn.btn-primary(type='submit') Search
 		//- jquery
 		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
 		//- materialize js

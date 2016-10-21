@@ -7,29 +7,31 @@ html
 		meta(name="viewport" content="width=device-width, initial-scale=1.0")
 		title User Information App
 	body
-		//- navigation using materialize
-		nav
-			div(class='nav-wrapper')
-				a(href='' class='brand-logo right') User Information App
-				a(href='' data-activates='mobile-demo' class='button-collapse')
-					i(class='material-icons') menu
-				ul(id='nav-mobile' class='left hide-on-med-and-down')
-					li 
-						a(href='all-users') Display all users
-					li 
-						a(href='search-user') Search user
-					li 
-						a(href='add-user') Add user
-				//- hamburger menu when viewed on mobile
-				ul(class='side-nav' id='mobile-demo')
-					li 
-						a(href='all-users') Display all users
-					li 
-						a(href='search-user') Search user
-					li 
-						a(href='add-user') Add user
-		h1 Home
-		p Hi there, this app contains an adressbook of users and their emails. You can search for users, add users and take a look at the whole list of users.
+		div(class="container")
+			//- navigation using materialize
+			nav
+				div(class='nav-wrapper')
+					a(href='' class='brand-logo right') User Information App
+					a(href='' data-activates='mobile-demo' class='button-collapse')
+						i(class='material-icons') menu
+					ul(id='nav-mobile' class='left hide-on-med-and-down')
+						li 
+							a(href='all-users') Display all users
+						li 
+							a(href='search-user') Search user
+						li 
+							a(href='add-user') Add user
+					//- hamburger menu when viewed on mobile
+					ul(class='side-nav' id='mobile-demo')
+						li 
+							a(href='all-users') Display all users
+						li 
+							a(href='search-user') Search user
+						li 
+							a(href='add-user') Add user
+		div(class="container")
+			h1 Home
+			p Hi there, this app contains an adressbook of users and their emails. You can search for users, add users and take a look at the whole list of users.
 		//- jquery
 		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
 		//- materialize js

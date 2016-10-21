@@ -9,43 +9,45 @@ html
 		link(type="text/css" rel="stylesheet" href="css/style.css")
 		title User Information App
 	body
-		//- navigation using materialize
-		nav
-			div(class='nav-wrapper')
-				a(href='/' class='brand-logo right') User Information App
-				a(href='' data-activates='mobile-demo' class='button-collapse')
-					i(class='material-icons') menu
-				ul(id='nav-mobile' class='left hide-on-med-and-down')
-					li 
-						a(href='all-users') Display all users
-					li 
-						a(href='search-user') Search user
-					li(class='active') 
-						a(href='add-user') Add user
-				//- hamburger menu when viewed on mobile
-				ul(class='side-nav' id='mobile-demo')
-					li 
-						a(href='all-users') Display all users
-					li 
-						a(href='search-user') Search user
-					li(class='active')
-						a(href='add-user') Add user
-		h1 Add user
-		//- add firstname, add lastname, add email bar
-		//- error message when not all fields are filled out, so if fieldEmptyError is true, error and message are checked and set server-side
-		if fieldEmptyError
-			p(class="errorMessage") #{errorMessage}
-		form(name='user-form' method='POST' action='/all-users')
-			div.form-group
-				label(for = 'firstname') Firstname: 
-				input#firstname.form-control(type ='text', placeholder ='Firstname' name ='firstname')
-			div.form-group
-				label(for = 'lastname') Lastname: 
-				input#lastname.form-control(type ='text', placeholder ='Lastname' name ='lastname')
-			div.form-group
-				label(for = 'email') Email: 
-				input#email.form-control(type ='text', placeholder ='name@email.com' name ='email')
-			button.btn.btn-primary(type='submit' id='button') Add user 
+		div(class="container")
+			//- navigation using materialize
+			nav
+				div(class='nav-wrapper')
+					a(href='/' class='brand-logo right') User Information App
+					a(href='' data-activates='mobile-demo' class='button-collapse')
+						i(class='material-icons') menu
+					ul(id='nav-mobile' class='left hide-on-med-and-down')
+						li 
+							a(href='all-users') Display all users
+						li 
+							a(href='search-user') Search user
+						li(class='active') 
+							a(href='add-user') Add user
+					//- hamburger menu when viewed on mobile
+					ul(class='side-nav' id='mobile-demo')
+						li 
+							a(href='all-users') Display all users
+						li 
+							a(href='search-user') Search user
+						li(class='active')
+							a(href='add-user') Add user
+		div(class="container")
+			h1 Add user
+			//- add firstname, add lastname, add email bar
+			//- error message when not all fields are filled out, so if fieldEmptyError is true, error and message are checked and set server-side
+			if fieldEmptyError
+				p(class="errorMessage") #{errorMessage}
+			form(name='user-form' method='POST' action='/all-users')
+				div.form-group
+					label(for = 'firstname') Firstname: 
+					input#firstname.form-control(type ='text', placeholder ='Firstname' name ='firstname')
+				div.form-group
+					label(for = 'lastname') Lastname: 
+					input#lastname.form-control(type ='text', placeholder ='Lastname' name ='lastname')
+				div.form-group
+					label(for = 'email') Email: 
+					input#email.form-control(type ='text', placeholder ='name@email.com' name ='email')
+				button.btn.btn-primary(type='submit' id='button') Add user 
 		//- jquery
 		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
 		//- materialize js
