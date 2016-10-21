@@ -1,19 +1,32 @@
 html
 	head
+		link(href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+		//- materialize css
+		link(type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection")
+		//- Let browser know website is optimized for mobile
+		meta(name="viewport" content="width=device-width, initial-scale=1.0")
+		title User Information App
 	body
-		h1 User Information App
-		//- navigation, bigger text to show on which page you are currently
-		ul
-			li 
-				a(href='/') home
-			li 
-				a(href='all-users') display all users
-			li 
-				a(href='search-user') search user
-			li 
-				a(href='')
-					h3 add user
-		h2 Add user
+		nav
+			div(class='nav-wrapper')
+				a(href='/' class='brand-logo right') User Information App
+				a(href='' data-activates='mobile-demo' class='button-collapse')
+					i(class='material-icons') menu
+				ul(id='nav-mobile' class='left hide-on-med-and-down')
+					li 
+						a(href='all-users') Display all users
+					li 
+						a(href='search-user') Search user
+					li(class='active') 
+						a(href='add-user') Add user
+				ul(class='side-nav' id='mobile-demo')
+					li 
+						a(href='all-users') Display all users
+					li 
+						a(href='search-user') Search user
+					li(class='active')
+						a(href='add-user') Add user
+		h1 Add user
 		//- add firstname, add lastname, add email bar
 		form(name='user-form' method='POST' action='/all-users')
 			div.form-group
@@ -29,8 +42,13 @@ html
 			//- alert when not all fields are filled out, so if fieldEmptyError is true
 			if fieldEmptyError
 				script(type='text/javascript') alert('Oops, you have to fill in all fields to add a user. Try again!')
-			//- konami code
-			script(type='text/javascript' src='konami.js')
+		//- jquery
+		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
+		//- materialize js
+		script(type="text/javascript" src="js/materialize.min.js")
+		script(type="text/javascript" src="js/main.js")
+		//- konami code
+		script(type='text/javascript' src='js/konami.js')
 
 			//- earlier solution, that caused the alert also to trigger when you enter the page (with empty fields)
 			//- if(!data['firstname'] || !data['lastname'] || !data['email']){ 

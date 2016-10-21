@@ -35,6 +35,6 @@ document.addEventListener('keydown', function(e) {
 });
 
 function activateCheats() {
-  var audio = new Audio('./pug.mp3');
+  var audio = new Audio('../media/pug.mp3');
   audio.play();
 }

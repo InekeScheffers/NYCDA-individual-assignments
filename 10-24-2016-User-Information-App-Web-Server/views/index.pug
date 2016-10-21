@@ -1,20 +1,38 @@
 html
 	head
+		link(href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+		//- materialize css
+		link(type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection")
+		//- Let browser know website is optimized for mobile
+		meta(name="viewport" content="width=device-width, initial-scale=1.0")
+		title User Information App
 	body
-		h1 User Information App
-		//- navigation, bigger text to show on which page you are currently
-		ul
-			li 
-				a(href='')
-					h3 home
-			li 
-				a(href='all-users') display all users
-			li 
-				a(href='search-user') search user
-			li 
-				a(href='add-user') add user
-		h2 Home
-		p Hi there, with this app you can search for users, add new users and see the whole list of users.
+		nav
+			div(class='nav-wrapper')
+				a(href='' class='brand-logo right') User Information App
+				a(href='' data-activates='mobile-demo' class='button-collapse')
+					i(class='material-icons') menu
+				ul(id='nav-mobile' class='left hide-on-med-and-down')
+					li 
+						a(href='all-users') Display all users
+					li 
+						a(href='search-user') Search user
+					li 
+						a(href='add-user') Add user
+				ul(class='side-nav' id='mobile-demo')
+					li 
+						a(href='all-users') Display all users
+					li 
+						a(href='search-user') Search user
+					li 
+						a(href='add-user') Add user
+		h1 Home
+		p Hi there, this app contains an adressbook of users and their emails. You can search for users, add users and take a look at the whole list of users.
+		//- jquery
+		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
+		//- materialize js
+		script(type="text/javascript" src="js/materialize.min.js")
+		script(type="text/javascript" src="js/main.js")
 		//- konami code
-		script(type='text/javascript' src='konami.js')
+		script(type='text/javascript' src='js/konami.js')
 
