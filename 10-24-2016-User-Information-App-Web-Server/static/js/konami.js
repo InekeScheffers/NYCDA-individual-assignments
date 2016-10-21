@@ -35,7 +35,7 @@ document.addEventListener('keydown', function(e) {
 });
 
 function activateCheats() {
-  document.body.style.backgroundImage = "url('https://media.giphy.com/media/9WoajAy4xBoIg/giphy.gif')";
+  document.body.style.backgroundImage = "url('../media/pug.gif')";
   var audio = new Audio('../media/pug.mp3');
   audio.play();
 
