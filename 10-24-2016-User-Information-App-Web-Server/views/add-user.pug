@@ -32,8 +32,9 @@ html
 						a(href='add-user') Add user
 		h1 Add user
 		//- add firstname, add lastname, add email bar
+		//- error message when not all fields are filled out, so if fieldEmptyError is true, error and message are checked and set server-side
 		if fieldEmptyError
-				p(class="errorMessage") #{errorMessage}
+			p(class="errorMessage") #{errorMessage}
 		form(name='user-form' method='POST' action='/all-users')
 			div.form-group
 				label(for = 'firstname') Firstname: 
@@ -45,9 +46,6 @@ html
 				label(for = 'email') Email: 
 				input#email.form-control(type ='text', placeholder ='name@email.com' name ='email')
 			button.btn.btn-primary(type='submit' id='button') Add user 
-			//- alert when not all fields are filled out, so if fieldEmptyError is true
-				//- if fieldEmptyError
-				//- 	script(type='text/javascript') alert('Oops, you have to fill in all fields to add a user. Try again!')
 		//- jquery
 		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
 		//- materialize js
