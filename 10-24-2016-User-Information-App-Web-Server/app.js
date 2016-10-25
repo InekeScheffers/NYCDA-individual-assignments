@@ -42,6 +42,28 @@ app.get('/add-user', (request, response) => {
 	response.render('add-user')
 }) 
 
+app.post('/autofill', (request, response) => {
+	let inputUser = request.body.input;
+	console.log(inputUser)
+
+	fs.readFile(__dirname + '/users.json', (err, data) => {
+		if (err) throw err;
+
+		let parsedData = JSON.parse(data);
+		let autofill = [];
+
+		for (let i = parsedData.length - 1; i >= 0; i--) {
+			if(parsedData[i].firstname.indexOf(inputUser) === 0 || parsedData[i].lastname.indexOf(inputUser) === 0){
+				autofill.push(parsedData[i]);
+			}
+		}
+		console.log(autofill);
+
+	})
+
+	//response.send({data: object});
+})
+
 app.post('/result-search', (request, response) => {
 	//test: console.log(request.body.search); //Value === console.log(request.body); //{search: 'Value'}
 	fs.readFile(__dirname + '/users.json', (err, data) => {
