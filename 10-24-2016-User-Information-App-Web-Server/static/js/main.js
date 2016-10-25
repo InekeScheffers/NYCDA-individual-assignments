@@ -6,7 +6,7 @@ $( document ).ready(function(){
 	//$( "#search" ).keyup(function () {}
 
 	//autocomplete search user, starting when there's some input in inputfield
-	$( "#search" ).on('input', function () {
+	$( "#search" ).on('input', function (e) {
 		// test if .keypress in inputfield works
 		// console.log("Handler for .keypress() called.");
 		// test if you can console.log the value of the pressed key
@@ -15,11 +15,16 @@ $( document ).ready(function(){
 		// console.log(event.target.value)
 		console.log($(this).val())
 
-		let inputSearch = {input: event.target.value};
+		let inputSearch = {input: e.target.value};
   		// console.log(inputSearch);
 
   		$.post('/autofill', inputSearch, function (data) {
+  		 $('#results').empty()
   			console.log(data);
+  			for (var i = 0; i < data.length; i++) {
+  				console.log("this is triggered " + i + " times")
+  				$('#results').append('<option>' + data[i].firstname + " " + data[i].lastname + '</option>' + '<option>' + data[i].lastname + " " + data[i].firstname + '</option>')
+  			}
   		})
 
 

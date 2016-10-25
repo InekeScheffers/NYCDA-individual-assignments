@@ -44,7 +44,8 @@ app.get('/add-user', (request, response) => {
 
 app.post('/autofill', (request, response) => {
 	let inputUser = request.body.input;
-	console.log(inputUser)
+	//test if inputSearch is send from main.js
+	// console.log(inputUser)
 
 	fs.readFile(__dirname + '/users.json', (err, data) => {
 		if (err) throw err;
@@ -57,8 +58,9 @@ app.post('/autofill', (request, response) => {
 				autofill.push(parsedData[i]);
 			}
 		}
-		console.log(autofill);
-		response.send({data: autofill});
+		// test if autofill contains the right objects
+		// console.log(autofill);
+		response.send(autofill);
 	})
 })
 
