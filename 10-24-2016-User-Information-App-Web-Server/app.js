@@ -58,10 +58,8 @@ app.post('/autofill', (request, response) => {
 			}
 		}
 		console.log(autofill);
-
+		response.send({data: autofill});
 	})
-
-	//response.send({data: object});
 })
 
 app.post('/result-search', (request, response) => {

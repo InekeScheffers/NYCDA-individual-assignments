@@ -2,7 +2,9 @@ $( document ).ready(function(){
 	$(".button-collapse").sideNav();
 
 	//autocomplete search user, starting when start to type in inputfield: #search
+	//so also when you type a Shift to capitalize a letter
 	//$( "#search" ).keyup(function () {}
+
 	//autocomplete search user, starting when there's some input in inputfield
 	$( "#search" ).on('input', function () {
 		// test if .keypress in inputfield works
@@ -17,7 +19,7 @@ $( document ).ready(function(){
   		// console.log(inputSearch);
 
   		$.post('/autofill', inputSearch, function (data) {
-  			// console.log(data);
+  			console.log(data);
   		})
 
 
