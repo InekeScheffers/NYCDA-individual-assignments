@@ -42,7 +42,9 @@ app.get('/add-user', (request, response) => {
 	response.render('add-user')
 }) 
 
+// when a request is send from the front-end when user types in search field, user.json is read on the server
 app.post('/autofill', (request, response) => {
+	// gets inputSearch from main.js request.body = inputSearch, and you want the input of it
 	let inputUser = request.body.input;
 	//test if inputSearch is send from main.js
 	// console.log(inputUser)
@@ -51,15 +53,18 @@ app.post('/autofill', (request, response) => {
 		if (err) throw err;
 
 		let parsedData = JSON.parse(data);
+		// empty array to store users in that match for the first part with what's in the inputfield
 		let autofill = [];
 
 		for (let i = parsedData.length - 1; i >= 0; i--) {
+			// the part in the inputfield must be the same as the beginning of first- or lastname
 			if(parsedData[i].firstname.indexOf(inputUser) === 0 || parsedData[i].lastname.indexOf(inputUser) === 0){
 				autofill.push(parsedData[i]);
 			}
 		}
 		// test if autofill contains the right objects
 		// console.log(autofill);
+		// send the filled autofill array to main.js
 		response.send(autofill);
 	})
 })
