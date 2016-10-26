@@ -38,8 +38,13 @@ html
 			//- search bar
 			form(method='POST' action='/result-search')
 				div.form-group 
-					input#search.form-control(type ='text', placeholder ='First- or Lastname' name ='search')
+					//- added list="results" to match with datalist, to tie datalist to input element
+					input#search.form-control(type ='text', placeholder ='First- or Lastname' name ='search' autocomplete="off" list="results")
+					//- autocomplete: empty datalist to put the results in that match with the inputfield
+					//- The <datalist> tag specifies a list of pre-defined options for an <input> element. Drop-down.
+					datalist#results
 					button.btn.btn-primary(type='submit') Search
+			p.autocompleteField
 		//- jquery
 		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
 		//- materialize js

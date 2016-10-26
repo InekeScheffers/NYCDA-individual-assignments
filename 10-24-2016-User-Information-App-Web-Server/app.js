@@ -42,6 +42,37 @@ app.get('/add-user', (request, response) => {
 	response.render('add-user')
 }) 
 
+// when a request is send from the front-end when user types in search field, user.json is read on the server
+app.post('/autofill', (request, response) => {
+	// gets inputSearch from main.js request.body = inputSearch, and you want the input of it
+	let inputUser = request.body.input;
+	// turn input in field in string that starts with capital letter and the rest lowercase.. so also when the user searches with all caps, or all lowercase or a mix it will match with the data
+	inputUser = inputUser.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+		return letter.toUpperCase();
+	});
+	//test if inputSearch is send from main.js
+	// console.log(inputUser)
+
+	fs.readFile(__dirname + '/users.json', (err, data) => {
+		if (err) throw err;
+
+		let parsedData = JSON.parse(data);
+		// empty array to store users in that match for the first part with what's in the inputfield
+		let autofill = [];
+
+		for (let i = parsedData.length - 1; i >= 0; i--) {
+			// the part in the inputfield must be the same as the beginning of first- or lastname
+			if(parsedData[i].firstname.indexOf(inputUser) === 0 || parsedData[i].lastname.indexOf(inputUser) === 0){
+				autofill.push(parsedData[i]);
+			}
+		}
+		// test if autofill contains the right objects
+		// console.log(autofill);
+		// send the filled autofill array to main.js
+		response.send(autofill);
+	})
+})
+
 app.post('/result-search', (request, response) => {
 	//test: console.log(request.body.search); //Value === console.log(request.body); //{search: 'Value'}
 	fs.readFile(__dirname + '/users.json', (err, data) => {
@@ -52,8 +83,13 @@ app.post('/result-search', (request, response) => {
 		let result = []; // result variable: empty array, to store users in that match with their first- or lastbname with the search query
 
 		for (let i = parsedData.length - 1; i >= 0; i--) { // loop through parsedData to check if users match with search query
+			// turn input in field in string that starts with capital letter and the rest lowercase.. so also when the user searches with all caps, or all lowercase or a mix it will match with the data
+			let startWithCapital = request.body.search;
+			startWithCapital = startWithCapital.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+				return letter.toUpperCase();
+			});
 			// console.log(parsedData[i].firstname)
-			if(parsedData[i].firstname === request.body.search || parsedData[i].lastname === request.body.search){
+			if(parsedData[i].firstname === startWithCapital || parsedData[i].lastname === startWithCapital || parsedData[i].firstname + " " + parsedData[i].lastname === startWithCapital){
 				//console.log(parsedData[i])
 				//push object to empty result-array for all users that have the same first or lastname as the search query
 				result.push(parsedData[i]); //push user object to result when there is a match
@@ -62,7 +98,7 @@ app.post('/result-search', (request, response) => {
 
 		// if user wasn't found because search field was empty, user doesn't exist or user is misspelled stay on page and give alert message, else go to results and show result
 		if(result.length === 0) { // if result has no objects in it (because no match or no search query)
-			response.render('search-user', {fieldEmptyError: true, errorMessage: "Oops, didn't find user. Please, search again (remember to start with a capital letter)."}); // stay on search-user, pass error to search-user so it can give the passed error message to try again
+			response.render('search-user', {fieldEmptyError: true, errorMessage: "Oops, didn't find user. Please, search again."}); // stay on search-user, pass error to search-user so it can give the passed error message to try again
 		} else {
 			console.log("About to render the result-search.pug page..."); // if there is one or more objects in result
 			response.render('result-search', {data: result, searchQuery: request.body.search}) // render /result-search, and pass data so /result-search.pug can show the found users
