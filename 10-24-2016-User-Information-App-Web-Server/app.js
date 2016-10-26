@@ -46,6 +46,10 @@ app.get('/add-user', (request, response) => {
 app.post('/autofill', (request, response) => {
 	// gets inputSearch from main.js request.body = inputSearch, and you want the input of it
 	let inputUser = request.body.input;
+	// turn input in field in string that starts with capital letter and the rest lowercase.. so also when the user searches with all caps, or all lowercase or a mix it will match with the data
+	inputUser = inputUser.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+		return letter.toUpperCase();
+	});
 	//test if inputSearch is send from main.js
 	// console.log(inputUser)
 
@@ -79,8 +83,13 @@ app.post('/result-search', (request, response) => {
 		let result = []; // result variable: empty array, to store users in that match with their first- or lastbname with the search query
 
 		for (let i = parsedData.length - 1; i >= 0; i--) { // loop through parsedData to check if users match with search query
+			// turn input in field in string that starts with capital letter and the rest lowercase.. so also when the user searches with all caps, or all lowercase or a mix it will match with the data
+			let startWithCapital = request.body.search;
+			startWithCapital = startWithCapital.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+				return letter.toUpperCase();
+			});
 			// console.log(parsedData[i].firstname)
-			if(parsedData[i].firstname === request.body.search || parsedData[i].lastname === request.body.search || parsedData[i].firstname + " " + parsedData[i].lastname === request.body.search){
+			if(parsedData[i].firstname === startWithCapital || parsedData[i].lastname === startWithCapital || parsedData[i].firstname + " " + parsedData[i].lastname === startWithCapital){
 				//console.log(parsedData[i])
 				//push object to empty result-array for all users that have the same first or lastname as the search query
 				result.push(parsedData[i]); //push user object to result when there is a match
