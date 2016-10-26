@@ -80,7 +80,7 @@ app.post('/result-search', (request, response) => {
 
 		for (let i = parsedData.length - 1; i >= 0; i--) { // loop through parsedData to check if users match with search query
 			// console.log(parsedData[i].firstname)
-			if(parsedData[i].firstname === request.body.search || parsedData[i].lastname === request.body.search){
+			if(parsedData[i].firstname === request.body.search || parsedData[i].lastname === request.body.search || parsedData[i].firstname + " " + parsedData[i].lastname === request.body.search){
 				//console.log(parsedData[i])
 				//push object to empty result-array for all users that have the same first or lastname as the search query
 				result.push(parsedData[i]); //push user object to result when there is a match
