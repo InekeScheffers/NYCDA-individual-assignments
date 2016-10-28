@@ -1,39 +1,21 @@
 $( document ).ready(function(){
 	$(".button-collapse").sideNav();
 
-	//autocomplete search user, starting when start to type in inputfield: #search
-	//so also when you type a Shift to capitalize a letter, so changed to .on('input')
-		//$( "#search" ).keyup(function () {}
-			// test if .keypress in inputfield works
-			// console.log("Handler for .keypress() called.");
-			// test if you can console.log the value of the pressed key
-			// console.log(event.key);
-
 	// to make sure my AJAX request only happens once every 300 milliseconds, but when I load the search page it doesn't have to wait
-	// I first set handleNextInput to true
-	let handleNextInput = true;
+	// I first set lastCall to 0
+	let lastCall = 0;
 
-	// This is the function used to set handleNextInput which turned into false, to true again, so it will run the code again
-	function setHandleNextInputTrue() {
-		handleNextInput = true;
-	}
-
-	// This function creates the possibility to give a time which it has to wait to run setHandleNextInputTrue
-	function setHandleNextInputTrueAfterTime(time) {
-		setTimeout(setHandleNextInputTrue, time);
-	}
-
-	//autocomplete search user, starting when there's some input in inputfield
+	//autocomplete search user, listening to when there's new input in inputfield
 	$( "#search" ).on('input', function (event) {
 		//test if you can console.log the whole string in the input field
 		// console.log(event.target.value) || console.log($(this).val())
 
-		// this if statement makes sure the AJAX request only runs when handleNextInput = true
-		if(handleNextInput){
+		// this if statement makes sure the AJAX request only runs when the lastCall was at least 300 milliseconds ago
+		if(lastCall + 300 < Date.now()){
 			let inputSearch = {input: event.target.value};
 	  		// console.log(inputSearch);
 
-	  		// everytime something changes in the inputfield a post request is send to /autofill
+	  		// when something changes in the inputfield a post request is send to /autofill
 	  		// the callback gets its data from app.js (autofill)
 	  		$.post('/autofill', inputSearch, function (data) {
 	  			// first set datalist with #results to empty again when request is made so it's not just appended and added to last result
@@ -48,10 +30,8 @@ $( document ).ready(function(){
 	  				}
 	  		})
 
-	  		// after the AJAX request is handled, it sets handleNextInput to false, so it doesn't runs immediately again when there is new input
-	  		handleNextInput = false;
-	  		// sets handleNextInput to true after waiting for 300 milliseconds.. so now it is set to true again and will run the code when there is new input
-	  		setHandleNextInputTrueAfterTime(300);
+	  		// after the AJAX request is handled, it sets lastCall to Date.now(), so it doesn't runs immediately again when there is new input
+	  		lastCall = Date.now();
   		}
 	})
 
