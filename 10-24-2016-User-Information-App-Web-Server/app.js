@@ -10,6 +10,15 @@ app.use(express.static(__dirname + '/static/')) // serve static files in express
 app.set('view engine', 'pug') // set view engine to pug
 app.set('views', __dirname + '/views') //set where the view engine is located
 
+// function to alpabatize objects in data array on their lastname
+function alphabatize(userObject, anotherUserObject) {
+	if (userObject.lastname < anotherUserObject.lastname)
+		return -1;
+	if (userObject.lastname > anotherUserObject.lastname)
+		return 1;
+	return 0;
+}
+
 app.get('/', (request, response) => { // when home is requested render localhost:8000
 	console.log("About to render the index.pug page...");
 	response.render('index')
@@ -23,14 +32,7 @@ app.get('/all-users', (request, response) => { //when display all users is reque
 
 		let parsedData = JSON.parse(data); // store the json data parsed into js object in parsedData
 
-		function alphabatize(userObject, anotherUserObject) {
-  			if (userObject.lastname < anotherUserObject.lastname)
-    			return -1;
-  			if (userObject.lastname > anotherUserObject.lastname)
-   	 			return 1;
-  			return 0;
-		}
-
+		//alphabatize the parsedData
 		parsedData.sort(alphabatize);
 
 		response.render('all-users', {data: parsedData}); // send parsedData to all-users.pug through {data: parsedData}
@@ -107,6 +109,9 @@ app.post('/result-search', (request, response) => {
 			}
 		}
 
+		//alphabatize the result
+		result.sort(alphabatize);
+
 		// if user wasn't found because search field was empty, user doesn't exist or user is misspelled stay on page and give alert message, else go to results and show result
 		if(result.length === 0) { // if result has no objects in it (because no match or no search query)
 			response.render('search-user', {fieldEmptyError: true, errorMessage: "Oops, didn't find user. Please, search again."}); // stay on search-user, pass error to search-user so it can give the passed error message to try again
@@ -132,6 +137,9 @@ app.post('/all-users', (request, response) => {
 			fs.writeFile(__dirname + '/users.json', json, 'utf8', (mistake) => { //write file with parsedData (with added user)
 				if (mistake) throw mistake;
 			})
+
+			//alphabatize the parsedData with the new user
+			parsedData.sort(alphabatize);
 
 			console.log("About to render the all-users.pug page with added user...");
 			response.render('all-users', {data: parsedData}) // render all-users to display all users with the added user
