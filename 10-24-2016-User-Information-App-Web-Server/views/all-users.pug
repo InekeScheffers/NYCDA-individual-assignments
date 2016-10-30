@@ -36,7 +36,20 @@ html
 			//- show a list of all users from the user.json file, the data read with the readFile function which passes all data to this file with {data: parsedData}
 			ul
 				each thing in data
-					li #{thing.firstname} #{thing.lastname}: #{thing.email}
+					li
+						//- make of every item in list a form, so we can post it's index to the back-end (app.js) and delete the user when we click the trashcan
+						//- method is post (post it's index) action is delete-user with that index
+						form(name='user-form' method='POST' action='/delete-user')
+							//- input hidden so you don't see an input field: value = it's index
+							input#email.form-control(type ='hidden', name = 'index', value=thing.index)
+							//- display object's first-, lastname and email
+							span #{thing.firstname} #{thing.lastname}: #{thing.email} 
+							//- used btn-floating = materialize styling
+							button.btn-floating(type='submit' id='button')
+								//- delete icon of materialize
+								i(class = "material-icons") delete
+ 														
+
 		//- jquery
 		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
 		//- materialize js

@@ -37,7 +37,7 @@ html
 			//- error message when not all fields are filled out, so if fieldEmptyError is true, error and message are checked and set server-side
 			if fieldEmptyError
 				p(class="errorMessage") #{errorMessage}
-			form(name='user-form' method='POST' action='/all-users')
+			form(name='user-form' method='POST' action='/add-user')
 				div.form-group
 					label(for = 'firstname') Firstname: 
 					input#firstname.form-control(type ='text', placeholder ='Firstname' name ='firstname')

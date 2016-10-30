@@ -32,8 +32,16 @@ app.get('/all-users', (request, response) => { //when display all users is reque
 
 		let parsedData = JSON.parse(data); // store the json data parsed into js object in parsedData
 
+		// give every object in array an index, so we have the right index, also after alphabatizing(aka sorting)
+		parsedData.forEach(function(val, index) {
+			val.index = index;
+		})
+
 		//alphabatize the parsedData
 		parsedData.sort(alphabatize);
+
+		//test to see if we have all parsedData in alphabetic order (sorted) + with right index (before alphabatizing)
+		//console.log(parsedData)
 
 		response.render('all-users', {data: parsedData}); // send parsedData to all-users.pug through {data: parsedData}
 	})
@@ -122,7 +130,7 @@ app.post('/result-search', (request, response) => {
 	})
 })
 
-app.post('/all-users', (request, response) => {
+app.post('/add-user', (request, response) => {
 	if(!request.body['firstname'] || !request.body['lastname'] || !request.body['email']){ // if one of the fields is empty
 		response.render('add-user', {fieldEmptyError: true, errorMessage: 'Try again. Please fill out all fields to add a user.'}) // stay on add-user, pass error to add-user so it can give the passed error message to fill out all fields to add a user
 	} else {
@@ -138,14 +146,33 @@ app.post('/all-users', (request, response) => {
 				if (mistake) throw mistake;
 			})
 
-			//alphabatize the parsedData with the new user
-			parsedData.sort(alphabatize);
-
-			console.log("About to render the all-users.pug page with added user...");
-			response.render('all-users', {data: parsedData}) // render all-users to display all users with the added user
+			//changed render into redirect, so we only render all-users in app.get(all-users), so we don't keep on adding the same
+			// user when we reload after adding
+			response.redirect('/all-users');
 		})
 	}
 })
+
+// post request when you click trashcan behind user on all-users.pug
+app.post('/delete-user', (request, response) => {
+		fs.readFile(__dirname + '/users.json', (err, data) => { // if all fields are filled out
+			if (err) throw err;
+
+			let parsedData = JSON.parse(data); // parse json file into js object push new user object to parsedData
+
+			// delete user on index that you have clicked to delete (1: only delete that one)
+			parsedData.splice(request.body.index, 1)
+
+			let json = JSON.stringify(parsedData); // make a json file of parsedData (with added user)
+
+			fs.writeFile(__dirname + '/users.json', json, 'utf8', (mistake) => { //write file with parsedData (with deleted user spliced)
+				if (mistake) throw mistake;
+			})
+			//changed render into redirect, so we only render all-users in app.get(all-users), so we don't keep on deleting the same
+			// index when we reload after deleting
+			response.redirect('/all-users');
+		})	
+}) 
 
 app.listen(8000, () =>{ // set up port to locally run your app in the browser
 	console.log('server is running');
