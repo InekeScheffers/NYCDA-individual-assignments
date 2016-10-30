@@ -22,6 +22,17 @@ app.get('/all-users', (request, response) => { //when display all users is reque
 		if (err) throw err;
 
 		let parsedData = JSON.parse(data); // store the json data parsed into js object in parsedData
+
+		function alphabatize(userObject, anotherUserObject) {
+  			if (userObject.lastname < anotherUserObject.lastname)
+    			return -1;
+  			if (userObject.lastname > anotherUserObject.lastname)
+   	 			return 1;
+  			return 0;
+		}
+
+		parsedData.sort(alphabatize);
+
 		response.render('all-users', {data: parsedData}); // send parsedData to all-users.pug through {data: parsedData}
 	})
 }) 
