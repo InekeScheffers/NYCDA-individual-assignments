@@ -1,0 +1,16 @@
+{
+  "name": "bulletin-board-application",
+  "version": "0.0.1",
+  "description": "a guestbook",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ineke",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0",
+    "pg": "^6.1.0",
+    "pug": "^2.0.0-beta6"
+  }
+}
