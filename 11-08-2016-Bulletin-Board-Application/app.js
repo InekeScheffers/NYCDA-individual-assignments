@@ -1,13 +1,59 @@
+// include node express lib
+const express = require('express')
+// include node body parsing middleware
+const bodyParser = require('body-parser')
 //include node postgres lib
-let pg = require('pg');
+const pg = require('pg')
+
+// create app as instance of express
+const app = express()
+
+// Parse incoming request bodies in a middleware before your handlers, availabe under the req.body property
+app.use(bodyParser.urlencoded({ extended: true }))
+
+// serve static files in express
+// app.use(express.static(__dirname + '/static/'))
+
+// set view engine to pug & set where the view engine is located
+app.set('view engine', 'pug')
+app.set('views', __dirname + '/views')
 
 // create var with path to bulletinboard database, my username is read from environment variable POSTGRES_USER
 const connectionString = 'postgres://' + process.env.POSTGRES_USER + ':' + '@localhost/bulletinboard';
 
-//connect to database
+// when home is requested render localhost:8000
+app.get('/', (request, response) => {
+	console.log("About to render the leave a message page...");
+	response.render('index')
+})
+
+// when bulletin board is requested render /all-comments
+app.get('/all-comments', (request, response) => {
+	console.log("About to render the bulletinboard...");
+
+	// connect to bulletinboard database
+	pg.connect(connectionString, (err, client, done) =>{
+		if (err) throw err;
+
+		// select all messages
+		client.query('select * from messages', (err, result) => {
+			// check if the select all works
+			// console.log(result.rows);
+			// call done to close loop/query connection
+			done();
+			// call end to close full connection to postgres
+			pg.end();
+			// render all-comments and send result.rows to all-comments.pug
+			response.render('all-comments', {data: result.rows});
+		})
+	})
+}) 
+
+//connect to bulletinboard database
 pg.connect(connectionString, (err, client, done) => {
 	if (err) throw err;
 	//add new message
+	// title and body must be from what user puts in inputfield in form!!!
 	client.query("insert into messages (title, body) values ('first message', 'bla bla bla bla bla')", (err, result) => {
 		if (err) throw err;
 
@@ -19,3 +65,8 @@ pg.connect(connectionString, (err, client, done) => {
 		pg.end();
 	});
 });
+
+// set up port to locally run your app in the browser
+app.listen(8000, () =>{
+	console.log('server is running');
+})

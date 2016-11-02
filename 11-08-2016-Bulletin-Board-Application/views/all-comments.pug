@@ -1,0 +1,13 @@
+html
+	head
+		title Bulletin Board
+	body
+		ul
+			li
+				a(href='/') Sign our bulletin board
+			li
+				a(href='all-comments') Bulletin board
+		h1 Bulletin board
+		ul
+			each thing in data
+				li #{thing.title} <br/> #{thing.body}

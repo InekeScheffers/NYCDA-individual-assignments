@@ -1,0 +1,16 @@
+html
+	head
+		title Bulletin Board
+	body
+		ul
+			li
+				a(href='/') Sign our bulletin board
+			li
+				a(href='all-comments') Bulletin board
+		h1 Sign our bulletin board
+		form(name='message-form' method='POST' action='/all-comments')
+			label(for = 'title') Title
+				input#title(tyoe = 'text', placeholder='Title', name = 'title')
+			label(for = 'body') Message
+				input#body(type = 'text', placeholder = 'Message', name = 'body')
+			button(type='submit' id='button') Leave message
