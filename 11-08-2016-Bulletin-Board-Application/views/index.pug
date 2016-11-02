@@ -8,6 +8,8 @@ html
 			li
 				a(href='all-comments') Bulletin board
 		h1 Sign our bulletin board
+		if fieldEmptyError
+				p(class="errorMessage") #{errorMessage}
 		form(name='message-form' method='POST' action='/index')
 			label(for = 'title') Title
 				input#title(type = 'text', placeholder='Title', name = 'title')
