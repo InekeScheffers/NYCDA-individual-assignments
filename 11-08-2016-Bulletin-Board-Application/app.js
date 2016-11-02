@@ -50,10 +50,10 @@ app.get('/all-comments', (request, response) => {
 })
 
 // When submit button is clicked on leave a message/index.pug
-app.post('/index', (request, response) => {
+app.post('/', (request, response) => {
 	// when one of the fields is empty, stay on /index and display errormessage
 	if(!request.body['title'] || !request.body['body']){
-		response.render('index', {fieldEmptyError: true, errorMessage: 'Oops, fill in all fields to leave your message!'})
+		response.render('', {fieldEmptyError: true, errorMessage: 'Oops, fill in all fields to leave your message!'})
 	} else {
 		//connect to bulletinboard database
 		pg.connect(connectionString, (err, client, done) => {

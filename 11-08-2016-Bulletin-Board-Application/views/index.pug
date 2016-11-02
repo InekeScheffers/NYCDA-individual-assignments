@@ -21,21 +21,23 @@ html
 						li
 							a(href="/all-comments") Bulletin board
 		div(id="start-content" class="container")
-			h1 Sign our bulletin board
-			//- if a field is empty show error message
-			if fieldEmptyError
-					p(class="errorMessage") #{errorMessage}
-			form(name='message-form' method='POST' action='/index' class='form-horizontal')
+			div(class="col-sm-10")
+				h1 Sign my bulletin board
+			form(name='message-form' method='POST' action='/' class='form-horizontal')
 				div(class="form-group")
-					label(for = 'title' class="col-sm-2 control-label") Title 
 					div(class="col-sm-10")
+						label
 						input#title(type = 'text' placeholder='Title' name = 'title' class="form-control")
 				div(class="form-group")
-					label(for = 'body' class="col-sm-2 control-label") Message 
 					div(class="col-sm-10")
+						label
 						textarea#body(type = 'text' placeholder = 'Message' name = 'body' class="form-control" rows="6")
+				div(class="col-sm-10")
+					//- if a field is empty show error message
+					if fieldEmptyError
+						p(class="errorMessage") #{errorMessage}
 				div(class="form-group" id="form-button")
-					div(class="col-sm-offset-2 col-sm-10")
+					div(class="col-sm-10")
 						button(type='submit' class="btn btn-primary btn-lg") Leave message
 		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
 		script(type="text/javascript" src="js/bootstrap.min.js")
