@@ -1,3 +1,26 @@
 #start-content {
 	margin-top: 70px;
 }
+
+.form-group {
+	text-align: center;
+}
+
+#form-button {
+	text-align: right;
+}
+
+.form-horizontal {
+	margin-top: 50px;
+}
+
+label, ul {
+	margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+.btn-primary {
+	background-color: #222222;
+}
