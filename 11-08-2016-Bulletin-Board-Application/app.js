@@ -47,24 +47,34 @@ app.get('/all-comments', (request, response) => {
 			response.render('all-comments', {data: result.rows});
 		})
 	})
-}) 
+})
 
-//connect to bulletinboard database
-pg.connect(connectionString, (err, client, done) => {
-	if (err) throw err;
-	//add new message
-	// title and body must be from what user puts in inputfield in form!!!
-	client.query("insert into messages (title, body) values ('first message', 'bla bla bla bla bla')", (err, result) => {
-		if (err) throw err;
+app.post('/index', (request, response) => {
+	if(!request.body['title'] || !request.body['body']){
+		response.render('index', {fieldEmptyError: true, errorMessage: 'Oops, fill in all fields to leave your message!'})
+	} else {
+		//connect to bulletinboard database
+		pg.connect(connectionString, (err, client, done) => {
+			if (err) throw err;
+			console.log(request.body['title']);
+			//add new message
+			// title and body must be from what user puts in inputfield in form!!!
+			client.query("insert into messages (title, body) values ( '" + request.body['title'] + "', '" + request.body['body'] + "')", (err, result) => {
+				if (err) throw err;
 
-		//prints INSERT: 1, you need backticks for this!
-		console.log(`${result.command}: ${result.rowCount}`);
-		// call done to close loop/query connection
-		done();
-		// call end to close full connection to postgres
-		pg.end();
-	});
-});
+				//prints INSERT: 1, you need backticks for this!
+				console.log(`${result.command}: ${result.rowCount}`);
+				// call done to close loop/query connection
+				done();
+				// call end to close full connection to postgres
+				pg.end();
+
+				console.log("About to render bulletinboard with added message...");
+				response.redirect('all-comments');
+			});
+		});
+	}
+})
 
 // set up port to locally run your app in the browser
 app.listen(8000, () =>{

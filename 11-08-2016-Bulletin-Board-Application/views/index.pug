@@ -8,9 +8,9 @@ html
 			li
 				a(href='all-comments') Bulletin board
 		h1 Sign our bulletin board
-		form(name='message-form' method='POST' action='/all-comments')
+		form(name='message-form' method='POST' action='/index')
 			label(for = 'title') Title
-				input#title(tyoe = 'text', placeholder='Title', name = 'title')
+				input#title(type = 'text', placeholder='Title', name = 'title')
 			label(for = 'body') Message
 				input#body(type = 'text', placeholder = 'Message', name = 'body')
 			button(type='submit' id='button') Leave message
