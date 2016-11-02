@@ -21,9 +21,12 @@ html
 							a(href="/all-comments") Bulletin board
 		div(id="start-content" class="container")
 			h1 Bulletin board
-			ul
-				//- show all messages in bulletinboard database, starting with the last one
-				- for (let i = data.length - 1; i >= 0; i--)
-					li #{data[i].title} <br/> #{data[i].body}
+			//- show all messages in bulletinboard database, starting with the last one
+			- for (let i = data.length - 1; i >= 0; i--)
+				//- use panel styling of bootstrap
+				div.panel.panel-default
+					div.panel-heading
+						h3.panel-title #{data[i].title}
+					div.panel-body #{data[i].body}
 		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
 		script(type="text/javascript" src="js/bootstrap.min.js")
