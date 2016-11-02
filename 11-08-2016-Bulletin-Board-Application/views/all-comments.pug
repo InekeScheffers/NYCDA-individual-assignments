@@ -2,6 +2,7 @@ html
 	head
 		title Bulletin Board
 	body
+		//- nav
 		ul
 			li
 				a(href='/') Sign our bulletin board
@@ -9,5 +10,6 @@ html
 				a(href='all-comments') Bulletin board
 		h1 Bulletin board
 		ul
-			each thing in data
-				li #{thing.title} <br/> #{thing.body}
+			//- show all messages in bulletinboard database, starting with the last one
+			- for (let i = data.length - 1; i >= 0; i--)
+				li #{data[i].title} <br/> #{data[i].body}

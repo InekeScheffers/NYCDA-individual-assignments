@@ -49,16 +49,19 @@ app.get('/all-comments', (request, response) => {
 	})
 })
 
+// When submit button is clicked on leave a message/index.pug
 app.post('/index', (request, response) => {
+	// when one of the fields is empty, stay on /index and display errormessage
 	if(!request.body['title'] || !request.body['body']){
 		response.render('index', {fieldEmptyError: true, errorMessage: 'Oops, fill in all fields to leave your message!'})
 	} else {
 		//connect to bulletinboard database
 		pg.connect(connectionString, (err, client, done) => {
 			if (err) throw err;
-			console.log(request.body['title']);
-			//add new message
-			// title and body must be from what user puts in inputfield in form!!!
+			// test if body-parser works
+			// console.log(request.body['title']);
+
+			//add new message, title and body is title and message from leave message/index.pug filled in by user
 			client.query("insert into messages (title, body) values ( '" + request.body['title'] + "', '" + request.body['body'] + "')", (err, result) => {
 				if (err) throw err;
 
@@ -70,6 +73,8 @@ app.post('/index', (request, response) => {
 				pg.end();
 
 				console.log("About to render bulletinboard with added message...");
+				// redirect to all-comments, so we only render all-users in app.get(all-users), so we don't keep on storing the same
+				// message when we reload after submitting
 				response.redirect('all-comments');
 			});
 		});

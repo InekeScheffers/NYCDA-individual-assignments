@@ -2,12 +2,14 @@ html
 	head
 		title Bulletin Board
 	body
+		//- nav
 		ul
 			li
 				a(href='/') Sign our bulletin board
 			li
 				a(href='all-comments') Bulletin board
 		h1 Sign our bulletin board
+		//- if a field is empty show error message
 		if fieldEmptyError
 				p(class="errorMessage") #{errorMessage}
 		form(name='message-form' method='POST' action='/index')
