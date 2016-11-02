@@ -12,7 +12,7 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // serve static files in express
-// app.use(express.static(__dirname + '/static/'))
+app.use(express.static(__dirname + '/static/'))
 
 // set view engine to pug & set where the view engine is located
 app.set('view engine', 'pug')
