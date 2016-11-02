@@ -1,18 +1,29 @@
 html
 	head
 		link(type="text/css" rel="stylesheet" href="css/bootstrap.min.css")
+		link(type="text/css" rel="stylesheet" href="css/style.css")
 		title Bulletin Board
 	body
 		//- nav
-		ul
-			li
-				a(href='/') Sign our bulletin board
-			li
-				a(href='all-comments') Bulletin board
-		h1 Bulletin board
-		ul
-			//- show all messages in bulletinboard database, starting with the last one
-			- for (let i = data.length - 1; i >= 0; i--)
-				li #{data[i].title} <br/> #{data[i].body}
-		//-script(type="text/javascript" src="js/jquery-3.1.1.min.js")
-		//-script(type="text/javascript" src="js/bootstrap.min.js")
+		nav(class="navbar navbar-inverse navbar-fixed-top")
+			div(class="container")
+				div(class="navbar-header")
+					button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar")
+						span(class="sr-only") Toggle navigation
+						span(class="icon-bar")
+						span(class="icon-bar")
+					a(class="navbar-brand" href="/") Bulletin Board App
+				div(id="navbar" class="collapse navbar-collapse")
+					ul(class="nav navbar-nav")
+						li
+							a(href="/") Leave a message
+						li(class="active")
+							a(href="/all-comments") Bulletin board
+		div(id="start-content" class="container")
+			h1 Bulletin board
+			ul
+				//- show all messages in bulletinboard database, starting with the last one
+				- for (let i = data.length - 1; i >= 0; i--)
+					li #{data[i].title} <br/> #{data[i].body}
+		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
+		script(type="text/javascript" src="js/bootstrap.min.js")
