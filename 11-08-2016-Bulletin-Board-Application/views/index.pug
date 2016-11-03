@@ -4,22 +4,10 @@ html
 		link(type="text/css" rel="stylesheet" href="css/bootstrap.min.css")
 		link(type="text/css" rel="stylesheet" href="css/style.css")
 		title Bulletin Board
-	body
-		//- nav which collapses into hamburger menu when you view it on a small screen/mobile device
-		nav(class="navbar navbar-inverse navbar-fixed-top")
-			div(class="container")
-				div(class="navbar-header")
-					button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar")
-						span(class="sr-only") Toggle navigation
-						span(class="icon-bar")
-						span(class="icon-bar")
-					a(class="navbar-brand" href="/") Bulletin Board App
-				div(id="navbar" class="collapse navbar-collapse")
-					ul(class="nav navbar-nav")
-						li(class="active")
-							a(href="/") Leave a message
-						li
-							a(href="/all-comments") Bulletin board
+	//- gave id to body so navbar can set it's link automatically to active with jquery
+	body#leavemessage
+		//- include entire navbar code from other pug file
+		include includes/nav.pug
 		div(id="start-content" class="container")
 			div(class="col-sm-10")
 				h1 Sign my bulletin board
@@ -46,3 +34,4 @@ html
 						button(type='submit' class="btn btn-primary btn-lg") Leave message
 		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
 		script(type="text/javascript" src="js/bootstrap.min.js")
+		script(type="text/javascript" src="js/main.js")
