@@ -5,7 +5,11 @@ an app that let's users post a message to some kind of guestbook
   * express
   * pug
   * pg
+  * body-parser
+  * html-entities
 * jQuery
 * JavaScript
 * PUG
 * postgreSQL
+* CSS
+* Bootstrap
