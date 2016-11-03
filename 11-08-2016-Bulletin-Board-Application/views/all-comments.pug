@@ -1,8 +1,5 @@
 html
-	head
-		link(type="text/css" rel="stylesheet" href="css/bootstrap.min.css")
-		link(type="text/css" rel="stylesheet" href="css/style.css")
-		title Bulletin Board
+	include includes/header.pug
 	//- gave id to body so navbar can set it's link automatically to active with jquery
 	body#bulletinboard
 		//- include entire navbar code from other pug file
@@ -21,6 +18,4 @@ html
 							//- set p style: white-space to pre-wrap: Whitespace is preserved by the browser. Text will wrap when necessary, and on line breaks --> so when user uses enters in message you'll see it on the bulletin board too
 							p #{data[i].body}
 						div.panel-footer #{data[i].time}
-		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
-		script(type="text/javascript" src="js/bootstrap.min.js")
-		script(type="text/javascript" src="js/main.js")
+		include includes/footer.pug

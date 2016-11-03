@@ -1,9 +1,5 @@
 html
-	head
-		meta(name="viewport" content="width=device-width, initial-scale=1")
-		link(type="text/css" rel="stylesheet" href="css/bootstrap.min.css")
-		link(type="text/css" rel="stylesheet" href="css/style.css")
-		title Bulletin Board
+	include includes/header.pug
 	//- gave id to body so navbar can set it's link automatically to active with jquery
 	body#leavemessage
 		//- include entire navbar code from other pug file
@@ -33,6 +29,4 @@ html
 				div#form-button.form-group
 					div.col-sm-10
 						button.btn.btn-primary.btn-lg(type="submit") Leave message
-		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
-		script(type="text/javascript" src="js/bootstrap.min.js")
-		script(type="text/javascript" src="js/main.js")
+		include includes/footer.pug
