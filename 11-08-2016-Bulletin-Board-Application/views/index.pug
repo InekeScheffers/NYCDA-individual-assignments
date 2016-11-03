@@ -5,7 +5,7 @@ html
 		link(type="text/css" rel="stylesheet" href="css/style.css")
 		title Bulletin Board
 	body
-		//- nav
+		//- nav which collapses into hamburger menu when you view it on a small screen/mobile device
 		nav(class="navbar navbar-inverse navbar-fixed-top")
 			div(class="container")
 				div(class="navbar-header")
@@ -23,6 +23,7 @@ html
 		div(id="start-content" class="container")
 			div(class="col-sm-10")
 				h1 Sign my bulletin board
+			//- form which input is a post request
 			form(name='message-form' method='POST' action='/' class='form-horizontal')
 				div(class="form-group")
 					div(class="col-sm-10")

@@ -4,9 +4,13 @@ const express = require('express')
 const bodyParser = require('body-parser')
 //include node postgres lib
 const pg = require('pg')
+//include node html-entities lib
+const Entities = require('html-entities').XmlEntities
 
 // create app as instance of express
 const app = express()
+// create instance of entities, so I can use all it's functions
+const entities = new Entities();
 
 // Parse incoming request bodies in a middleware before your handlers, availabe under the req.body property
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -43,8 +47,21 @@ app.get('/all-comments', (request, response) => {
 			done();
 			// call end to close full connection to postgres
 			pg.end();
-			// render all-comments and send result.rows to all-comments.pug
-			response.render('all-comments', {data: result.rows});
+
+			// decode: replacing the entities in the database for normal characters again, so it prints exactlty what's typed in
+			// use .map() to loop through all objects in array result.rows and replacing title, body and name for string with decoded characters
+			let decodedResults = result.rows.map( (i) => {
+				return {
+					// is new array so can change order (i.e. name before title)
+					id: 	i.id,
+					name: 	entities.decode(i.name),
+					title: 	entities.decode(i.title),
+					body: 	entities.decode(i.body),
+					time: 	i.time
+				}
+			})
+			// render all-comments and send decodedResults array to all-comments.pug
+			response.render('all-comments', {data: decodedResults});
 		})
 	})
 })
@@ -55,14 +72,20 @@ app.post('/', (request, response) => {
 	if(!request.body['name'] || !request.body['title'] || !request.body['body']){
 		response.render('', {fieldEmptyError: true, errorMessage: 'You shall not pass!\nPlease, fill in all fields to leave your message.'})
 	} else {
+		//encode input user: replacing characters to its entity representations. Ignores UTF characters with no entity representation.
+		//this because otherwise characters like ', ", ` in user's message crashes the client.query
+		let title = entities.encode(request.body['title']);
+		let body = entities.encode(request.body['body']);
+		let name = entities.encode(request.body['name']);
+
 		//connect to bulletinboard database
 		pg.connect(connectionString, (err, client, done) => {
 			if (err) throw err;
 			// test if body-parser works
 			// console.log(request.body['title']);
 
-			//add new message, title and body is title and message from leave message/index.pug filled in by user
-			client.query("insert into messages (title, body, time, name) values ( '" + request.body['title'] + "', '" + request.body['body'] + "', current_timestamp, '" + request.body['name'] + "')", (err, result) => {
+			//add new message: title, body, name is the encoded (see above) name, title and message filled in by user
+			client.query("insert into messages (title, body, time, name) values ( '" + title + "', '" + body + "', current_timestamp, '" + name + "')", (err, result) => {
 				if (err) throw err;
 
 				//prints INSERT: 1, you need backticks for this!
