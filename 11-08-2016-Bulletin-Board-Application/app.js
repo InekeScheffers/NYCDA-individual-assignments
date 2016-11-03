@@ -52,7 +52,7 @@ app.get('/all-comments', (request, response) => {
 // When submit button is clicked on leave a message/index.pug
 app.post('/', (request, response) => {
 	// when one of the fields is empty, stay on /index and display errormessage
-	if(!request.body['title'] || !request.body['body']){
+	if(!request.body['name'] || !request.body['title'] || !request.body['body']){
 		response.render('', {fieldEmptyError: true, errorMessage: 'Oops, fill in all fields to leave your message!'})
 	} else {
 		//connect to bulletinboard database
@@ -62,7 +62,7 @@ app.post('/', (request, response) => {
 			// console.log(request.body['title']);
 
 			//add new message, title and body is title and message from leave message/index.pug filled in by user
-			client.query("insert into messages (title, body) values ( '" + request.body['title'] + "', '" + request.body['body'] + "')", (err, result) => {
+			client.query("insert into messages (title, body, time, name) values ( '" + request.body['title'] + "', '" + request.body['body'] + "', current_timestamp, '" + request.body['name'] + "')", (err, result) => {
 				if (err) throw err;
 
 				//prints INSERT: 1, you need backticks for this!
