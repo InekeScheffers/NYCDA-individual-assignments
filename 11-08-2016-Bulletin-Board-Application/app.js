@@ -53,7 +53,7 @@ app.get('/all-comments', (request, response) => {
 app.post('/', (request, response) => {
 	// when one of the fields is empty, stay on /index and display errormessage
 	if(!request.body['name'] || !request.body['title'] || !request.body['body']){
-		response.render('', {fieldEmptyError: true, errorMessage: 'Oops, fill in all fields to leave your message!'})
+		response.render('', {fieldEmptyError: true, errorMessage: 'You shall not pass!\nPlease, fill in all fields to leave your message.'})
 	} else {
 		//connect to bulletinboard database
 		pg.connect(connectionString, (err, client, done) => {

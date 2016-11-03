@@ -29,8 +29,9 @@ html
 						div.panel-heading
 							h3.panel-title #{data[i].name}
 						div.panel-body 
-							h5 #{data[i].title} 
-							p #{data[i].body}
+							h5 #{data[i].title}
+							//- set white-space to pre-wrap: Whitespace is preserved by the browser. Text will wrap when necessary, and on line breaks --> so when user uses enters in message you'll see it on the bulletin board too
+							p(style='white-space:pre-wrap;') #{data[i].body}
 						div.panel-footer #{data[i].time}
 		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
 		script(type="text/javascript" src="js/bootstrap.min.js")
