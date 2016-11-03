@@ -2,6 +2,10 @@
 	margin-top: 70px;
 }
 
+p {
+	white-space: pre-wrap;
+}
+
 .form-group {
 	text-align: center;
 }

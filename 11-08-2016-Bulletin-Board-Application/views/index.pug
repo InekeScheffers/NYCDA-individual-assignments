@@ -8,30 +8,31 @@ html
 	body#leavemessage
 		//- include entire navbar code from other pug file
 		include includes/nav.pug
-		div(id="start-content" class="container")
-			div(class="col-sm-10")
+		div#start-content.container
+			div.col-sm-10
 				h1 Sign my bulletin board
 			//- form which input is a post request
-			form(name='message-form' method='POST' action='/' class='form-horizontal')
-				div(class="form-group")
-					div(class="col-sm-10")
+			form.form-horizontal(name="message-form" method="POST" action="/")
+				div.form-group
+					div.col-sm-10
 						label
-						input#name(type = 'text' placeholder='Your name' name = 'name' class="form-control")
-				div(class="form-group")
-					div(class="col-sm-10")
+						input#name.form-control(type="text" placeholder="Your name" name="name")
+				div.form-group
+					div.col-sm-10
 						label
-						input#title(type = 'text' placeholder='Title for your message' name = 'title' class="form-control")
-				div(class="form-group")
-					div(class="col-sm-10")
+						input#title.form-control(type="text" placeholder="Title for your message" name="title")
+				div.form-group
+					div.col-sm-10
 						label
-						textarea#body(type = 'text' placeholder = 'Your message' name = 'body' class="form-control" rows="6")
-				div(class="col-sm-10")
+						textarea#body.form-control(type="text" placeholder="Your message" name="body" rows="6")
+				div.col-sm-10
 					//- if a field is empty show error message
 					if fieldEmptyError
-						p(style="white-space:pre-wrap;" class="errorMessage") #{errorMessage}
-				div(class="form-group" id="form-button")
-					div(class="col-sm-10")
-						button(type='submit' class="btn btn-primary btn-lg") Leave message
+						//- set p style: white-space to pre-wrap: Whitespace is preserved by the browser. Text will wrap when necessary, and on line breaks --> so \n in errormessage is preserved
+						p.errorMessage #{errorMessage}
+				div#form-button.form-group
+					div.col-sm-10
+						button.btn.btn-primary.btn-lg(type="submit") Leave message
 		script(type="text/javascript" src="js/jquery-3.1.1.min.js")
 		script(type="text/javascript" src="js/bootstrap.min.js")
 		script(type="text/javascript" src="js/main.js")
