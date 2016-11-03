@@ -22,8 +22,8 @@ app.use(express.static(__dirname + '/static/'))
 app.set('view engine', 'pug')
 app.set('views', __dirname + '/views')
 
-// create var with path to bulletinboard database, my username is read from environment variable POSTGRES_USER
-const connectionString = 'postgres://' + process.env.POSTGRES_USER + ':' + '@localhost/bulletinboard';
+// create var with path to bulletinboard database, username and password is read from environment variables POSTGRES_USER + POSTGRES_PASSWORD
+const connectionString = 'postgres://' + process.env.POSTGRES_USER + ':' + process.env.POSTGRES_PASSWORD + '@localhost/bulletinboard';
 
 // when home is requested render localhost:8000
 app.get('/', (request, response) => {
