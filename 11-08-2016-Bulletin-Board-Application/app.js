@@ -28,8 +28,15 @@ app.set('views', __dirname + '/views')
 var Message = sequelize.define ('message', {
 	name: 	Sequelize.STRING,
 	title: 	Sequelize.STRING,
-	body: 	Sequelize.STRING 
+	body: 	Sequelize.TEXT 
 })
+
+// ensure the table messages exists
+// {force: true}: so this table is deleted from database, before creating it anew with Message.create
+// {force: true} only in development
+// when you set it to false a new message is added to already crowded table message. In this case it's handy for Paul to first clean it
+Message.sync({force:true})
+// Message is now ready to be used 
 
 // when home is requested render localhost:8000
 app.get('/', (request, response) => {
@@ -47,27 +54,20 @@ app.post('/', (request, response) => {
 		//this because otherwise characters like ', ", ` in user's message crashes the client.query
 		let title = entities.encode(request.body['title']);
 		let body = entities.encode(request.body['body']);
-		let name = entities.encode(request.body['name']);
-
-		Message
-			// ensure the table messages exists
-			// force so this table is deleted from database, before creating it anew
-			// {force: true} only in development: so you make sure the table is creating anew, when you set it to false
-			// a new message is added to already crowded table message. In this case it's handy for Paul to first clean it
-			.sync({force: true})
-			.then(function(){
-        	//`Message` is now ready to be used, create new message (row) in table messages
-			Message.create ({
-				name: 	name, 
-				title: 	title, 
-				body:  	body
-			})
-			.then(function(){
-				// redirect to all-comments, so we only render all-users in app.get(all-users), so we don't keep on storing the same
-				// message when we reload after submitting
-				response.redirect('all-comments');
-			})
-    	})
+		let name = entities.encode(request.body['name'])		
+			
+        // create new message (row) in table messages
+		Message.create ({
+			name: 	name, 
+			title: 	title, 
+			body:  	body
+		})
+		.then(function(){
+			// redirect to all-comments, so we only render all-users in app.get(all-users), so we don't keep on storing the same
+			// message when we reload after submitting
+			response.redirect('all-comments');
+		})
+    	
 	}
 })
 
