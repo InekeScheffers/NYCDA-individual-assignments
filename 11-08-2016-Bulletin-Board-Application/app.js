@@ -2,8 +2,8 @@
 const express = require('express')
 //include sequelize package
 const Sequelize = require('sequelize')
-//connect to database seqbulletinboard
-const sequelize = new Sequelize('postgres://' + process.env.POSTGRES_USER + ':' + process.env.POSTGRES_PASSWORD + '@localhost/seqbulletinboard')
+//connect to database bulletinboard
+const sequelize = new Sequelize('postgres://' + process.env.POSTGRES_USER + ':' + process.env.POSTGRES_PASSWORD + '@localhost/bulletinboard')
 // include node body parsing middleware
 const bodyParser = require('body-parser')
 //include node html-entities lib
@@ -24,7 +24,7 @@ app.use(express.static(__dirname + '/static/'))
 app.set('view engine', 'pug')
 app.set('views', __dirname + '/views')
 
-// make table messages in database seqbulletinboard with js instead of in psql
+// make table messages in database bulletinboard with js instead of in psql
 var Message = sequelize.define ('message', {
 	name: 	Sequelize.STRING,
 	title: 	Sequelize.STRING,
