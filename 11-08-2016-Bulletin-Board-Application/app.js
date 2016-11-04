@@ -28,6 +28,7 @@ app.set('views', __dirname + '/views')
 var Message = sequelize.define ('message', {
 	name: 	Sequelize.STRING,
 	title: 	Sequelize.STRING,
+	// .TEXT because string has limit of 255 characters and I don't want to limit a message to 255 characters
 	body: 	Sequelize.TEXT 
 })
 
