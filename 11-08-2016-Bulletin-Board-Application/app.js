@@ -62,7 +62,7 @@ app.post('/', (request, response) => {
 			title: 	title, 
 			body:  	body
 		})
-		.then(function(){
+		.then( () => {
 			// redirect to all-comments, so we only render all-users in app.get(all-users), so we don't keep on storing the same
 			// message when we reload after submitting
 			response.redirect('all-comments');
