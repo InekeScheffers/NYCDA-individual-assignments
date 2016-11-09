@@ -1,0 +1,11 @@
+{
+  "name": "blog-application",
+  "version": "1.0.0",
+  "description": "Blog app where a user can registrate, log-in, log-out, post posts, post comments, see own posts and profile and see posts from others",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ineke",
+  "license": "MIT"
+}
