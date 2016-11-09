@@ -31,7 +31,7 @@ app.set('views', __dirname + '/views')
 
 // create model for tables users
 let User = db.define('user', {
-	// say name and email have to be unique in this table
+	// say name has to be unique in this table for login purposes
 	name: {type: Sequelize.STRING, unique: true},
 	email: Sequelize.STRING,
 	password: Sequelize.STRING
@@ -52,19 +52,43 @@ app.get('/', (request, response) => {
 })
 
 // When submit button is clicked on leave a login.pug
-app.post('/', (request, response) => {	
-    // create new user (row) in table users
-	User.create ({
-		name: 		request.body.name, 
-		email: 		request.body.email, 
-		password: 	request.body.password
-		// catch when name or email isn't unique, redirect without adding to table users
-	}).catch(Sequelize.ValidationError, function (err) {
-		response.redirect('/?message=' + encodeURIComponent("Your username is already taken, please choose a new name."))
-	})
-	.then( () => {
-		response.render('newsfeed');
-	})
+app.post('/', (request, response) => {
+	// if user didn't fill in login
+	if(!request.body.loginname){	
+	    // create new user (row) in table users
+		User.create ({
+			name: 		request.body.name, 
+			email: 		request.body.email, 
+			password: 	request.body.password
+			// catch when name isn't unique, redirect without adding to table users
+		}).catch(Sequelize.ValidationError, function (err) {
+			response.redirect('/?message=' + encodeURIComponent("Your username is already taken, please choose a new name."))
+		})
+		// when name is unique adds to table and renders newsfeed.pug
+		.then( () => {
+			response.render('newsfeed');
+		})
+		// if user didn't fill in register
+	} else if(!request.body.name){
+		// find user in table users with the same name as filled in by user on loginform
+		User.findOne({
+			where: {
+				name: request.body.loginname
+			}
+		}).then(function (user) {
+			// if user exists and password in table matched the filled in password
+			if (user !== null && request.body.loginpassword === user.password) {
+				// start session and redirect to newsfeed
+				request.session.user = user;
+				response.redirect('/newsfeed');
+			} else {
+				// redirect to login page and say name or password is incorrect 
+				response.redirect('/?message=' + encodeURIComponent("Invalid name or password."));
+			}
+		}, function (error) {
+			response.redirect('/?message=' + encodeURIComponent("Invalid name or password."));
+		});
+		}
 })
 
 // set up port to locally run your app in the browser
