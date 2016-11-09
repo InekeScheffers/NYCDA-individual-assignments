@@ -29,6 +29,17 @@ app.use(session({
 app.set('view engine', 'pug')
 app.set('views', __dirname + '/views')
 
+// create model for tables users
+let User = db.define('user', {
+	// say name and email have to be unique in this table
+	name: {type: Sequelize.STRING, unique: true},
+	email: Sequelize.STRING,
+	password: Sequelize.STRING
+});
+
+// {force: true}: so this table is deleted from database
+User.sync({force:true})
+
 // test if app works
 // app.get('/ping', (request, response) => {
 // 	response.send('pong')
@@ -37,7 +48,7 @@ app.set('views', __dirname + '/views')
 // when home is requested render localhost:8000
 app.get('/', (request, response) => {
 	console.log("About to render the register/login page...");
-	response.render('login')
+	response.render('login', {message: request.query.message})
 })
 
 // When submit button is clicked on leave a login.pug
@@ -47,22 +58,14 @@ app.post('/', (request, response) => {
 		name: 		request.body.name, 
 		email: 		request.body.email, 
 		password: 	request.body.password
+		// catch when name or email isn't unique, redirect without adding to table users
+	}).catch(Sequelize.ValidationError, function (err) {
+		response.redirect('/?message=' + encodeURIComponent("Your username is already taken, please choose a new name."))
 	})
 	.then( () => {
 		response.render('newsfeed');
 	})
 })
-
-// create model for tables users
-let User = db.define('user', {
-	// say name and email have to be unique in this table
-	name: {type: Sequelize.STRING, unique: true},
-	email: {type: Sequelize.STRING, unique: true},
-	password: Sequelize.STRING
-});
-
-// {force: true}: so this table is deleted from database
-User.sync({force:true})
 
 // set up port to locally run your app in the browser
 app.listen(8000, () =>{
