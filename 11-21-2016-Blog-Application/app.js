@@ -69,7 +69,7 @@ app.get('/', (request, response) => {
 })
 
 // when home is requested render localhost:8000/profile
-app.get('/profile', function (request, response) {
+app.get('/profile', (request, response) => {
 	let user = request.session.user;
 	// if a user is logged in, started a session, render profile
 	if (user) {
@@ -89,7 +89,7 @@ app.get('/profile', function (request, response) {
 })
 
 // when logout is requested
-app.get('/logout', function (request, response) {
+app.get('/logout', (request, response) => {
 	// destroy session
 	request.session.destroy(function(error) {
 		if(error) {
@@ -98,6 +98,10 @@ app.get('/logout', function (request, response) {
 		// redirect to log in page and show message
 		response.redirect('/?message=' + encodeURIComponent("Successfully logged out."));
 	})
+})
+
+app.get('/post', (request, response) => {
+/////!!!! id ophalen met request.query.id
 })
 
 // When submit button is clicked on leave a login.pug
