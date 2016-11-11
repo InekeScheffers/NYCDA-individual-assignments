@@ -38,6 +38,7 @@ let User = db.define('user', {
 })
 
 let Post = db.define('post', {
+	name: Sequelize.STRING,
 	body: Sequelize.TEXT
 })
 
@@ -72,7 +73,15 @@ app.get('/profile', function (request, response) {
 	let user = request.session.user;
 	// if a user is logged in, started a session, render profile
 	if (user) {
-		response.render('profile', {user: user});
+		// select * from posts
+		Post.findAll({
+			where: {
+				name: user.name
+			}
+		}).then((posts)=> {
+			// render all-comments and send decodedResults array to all-comments.pug
+			response.render('profile', {user: user, data: posts});
+		})
 	} else {
 		// else redirect to log in and show message
 		response.redirect('/?message=' + encodeURIComponent("Please log in to view your profile."));
@@ -132,7 +141,7 @@ app.post('/', (request, response) => {
 			if (user !== null && request.body.loginpassword === user.password) {
 				// start session and redirect to newsfeed
 				request.session.user = user;
-				response.redirect('/newsfeed');
+				response.redirect('/');
 			} else {
 				// redirect to login page and say name or password is incorrect 
 				response.redirect('/?message=' + encodeURIComponent("Invalid name or password."));
@@ -144,9 +153,11 @@ app.post('/', (request, response) => {
 })
 
 // When submit button for post is clicked on newsfeed
-app.post('/post', (request, response) => {	
-        // create new posy (row) in table posts
+app.post('/post', (request, response) => {
+        // create new post (row) in table posts
 		Post.create ({
+//////////!!!!!!!!!!			// added name of current user, but didn't relate tables users with posts now!
+			name: request.session.user.name,
 			body: request.body.body
 		})
 		.then( () => {
