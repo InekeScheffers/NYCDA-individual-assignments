@@ -45,25 +45,42 @@ User.sync({force:true})
 // 	response.send('pong')
 // })
 
-// when home is requested render localhost:8000
+// when home is requested
 app.get('/', (request, response) => {
 	let user = request.session.user;
+	// if a user is logged in, started a session, render newsfeed
 	if(user) {
 		response.render('newsfeed')
 	} else {
+		// else render register/login
 		console.log("About to render the register/login page...");
 		response.render('login', {message: request.query.message})
 	}
 })
 
+// when home is requested render localhost:8000/profile
 app.get('/profile', function (request, response) {
 	let user = request.session.user;
-	if (user === undefined) {
-		response.redirect('/?message=' + encodeURIComponent("Please log in to view your profile."));
-	} else {
+	// if a user is logged in, started a session, render profile
+	if (user) {
 		response.render('profile', {user: user});
+	} else {
+		// else redirect to log in and show message
+		response.redirect('/?message=' + encodeURIComponent("Please log in to view your profile."));
 	}
-});
+})
+
+// when logout is requested
+app.get('/logout', function (request, response) {
+	// destroy session
+	request.session.destroy(function(error) {
+		if(error) {
+			throw error;
+		}
+		// redirect to log in page and show message
+		response.redirect('/?message=' + encodeURIComponent("Successfully logged out."));
+	})
+})
 
 // When submit button is clicked on leave a login.pug
 app.post('/', (request, response) => {
