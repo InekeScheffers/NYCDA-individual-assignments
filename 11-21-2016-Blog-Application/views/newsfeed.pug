@@ -9,3 +9,11 @@ html
 					a(href='/profile') Profile
 		
 		//- all posts starting at last one, clickable to view specific posts and its comments
+		form(name='post-form' method='POST' action='/post')
+			label
+			textarea#body(type='text' placeholder='Your message' name='body' row='4' required)
+			button(type='submit') Post
+		h1 Newsfeed
+		- for (let i = data.length - 1; i >= 0; i--)
+			p #{data[i].body}
+			p #{data[i].createdAt}

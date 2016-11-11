@@ -35,10 +35,15 @@ let User = db.define('user', {
 	name: {type: Sequelize.STRING, unique: true},
 	email: Sequelize.STRING,
 	password: Sequelize.STRING
-});
+})
+
+let Post = db.define('post', {
+	body: Sequelize.TEXT
+})
 
 // {force: true}: so this table is deleted from database
 User.sync({force:true})
+Post.sync({force:true})
 
 // test if app works
 // app.get('/ping', (request, response) => {
@@ -50,7 +55,11 @@ app.get('/', (request, response) => {
 	let user = request.session.user;
 	// if a user is logged in, started a session, render newsfeed
 	if(user) {
-		response.render('newsfeed')
+		// select * from posts
+		Post.findAll().then((posts)=> {
+			// render all-comments and send decodedResults array to all-comments.pug
+			response.render('newsfeed', {data: posts});
+		})
 	} else {
 		// else render register/login
 		console.log("About to render the register/login page...");
@@ -132,6 +141,19 @@ app.post('/', (request, response) => {
 			response.redirect('/?message=' + encodeURIComponent("Invalid name or password."));
 		});
 		}
+})
+
+// When submit button for post is clicked on newsfeed
+app.post('/post', (request, response) => {	
+        // create new posy (row) in table posts
+		Post.create ({
+			body: request.body.body
+		})
+		.then( () => {
+			// redirect to all-comments, so we only render all-users in app.get(all-users), so we don't keep on storing the same
+			// message when we reload after submitting
+			response.redirect('/');
+		})
 })
 
 // set up port to locally run your app in the browser
