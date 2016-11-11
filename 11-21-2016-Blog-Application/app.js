@@ -100,8 +100,17 @@ app.get('/logout', (request, response) => {
 	})
 })
 
+// when specific post is requested by clicking to leave a comment on it
 app.get('/post', (request, response) => {
-/////!!!! id ophalen met request.query.id
+	Post.findOne({
+		where: {
+			// this id of specific post is sent in the comment-url
+			id: request.query.id
+		}
+	}).then((post)=>{
+		// render /post and send data to pug file of this specific post
+		response.render('post', {post: post})
+	})
 })
 
 // When submit button is clicked on leave a login.pug
