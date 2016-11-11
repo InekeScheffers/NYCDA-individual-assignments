@@ -64,11 +64,23 @@ app.post('/', (request, response) => {
 		}).catch(Sequelize.ValidationError, function (err) {
 			response.redirect('/?message=' + encodeURIComponent("Your username is already taken, please choose a new name."))
 		})
-		// when name is unique adds to table and renders newsfeed.pug
+		// when name is unique adds to table and redirects to profile.pug
 		.then( () => {
-			response.render('newsfeed');
+			// check if newly registered user exists in table users
+			User.findOne({
+				where: {
+					name: request.body.name
+			}
+			}).then(function (user) {
+				// if user exists and password in table matched the filled in password
+				if (user !== null && request.body.password === user.password) {
+					// start session and redirect to profile
+					request.session.user = user;
+					response.redirect('/profile');
+				}
+			})
 		})
-		// if user didn't fill in register
+	// if user didn't fill in register
 	} else if(!request.body.name){
 		// find user in table users with the same name as filled in by user on loginform
 		User.findOne({
