@@ -47,9 +47,23 @@ User.sync({force:true})
 
 // when home is requested render localhost:8000
 app.get('/', (request, response) => {
-	console.log("About to render the register/login page...");
-	response.render('login', {message: request.query.message})
+	let user = request.session.user;
+	if(user) {
+		response.render('newsfeed')
+	} else {
+		console.log("About to render the register/login page...");
+		response.render('login', {message: request.query.message})
+	}
 })
+
+app.get('/profile', function (request, response) {
+	let user = request.session.user;
+	if (user === undefined) {
+		response.redirect('/?message=' + encodeURIComponent("Please log in to view your profile."));
+	} else {
+		response.render('profile', {user: user});
+	}
+});
 
 // When submit button is clicked on leave a login.pug
 app.post('/', (request, response) => {
