@@ -3,6 +3,7 @@ const Sequelize = require('sequelize')
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
+const bcrypt = require('bcrypt')
 
 // create instance of app
 const app = express()
@@ -116,49 +117,75 @@ app.get('/post', (request, response) => {
 // When submit button is clicked on leave a login.pug
 app.post('/', (request, response) => {
 	// if user didn't fill in login
-	if(!request.body.loginname){	
-	    // create new user (row) in table users
-		User.create ({
-			name: 		request.body.name, 
-			email: 		request.body.email, 
-			password: 	request.body.password
-			// catch when name isn't unique, redirect without adding to table users
-		}).catch(Sequelize.ValidationError, function (err) {
-			response.redirect('/?message=' + encodeURIComponent("Your username is already taken, please choose a new name."))
-		})
-		// when name is unique adds to table and redirects to profile.pug
-		.then( () => {
-			// check if newly registered user exists in table users
-			User.findOne({
-				where: {
-					name: request.body.name
+	if(!request.body.loginname){
+		// declare variable password which stores the password input under registration by user
+		let password = request.body.password;
+
+		// hash password, and store hashed password in password column in table users
+		bcrypt.hash(password, 8, function(err, hash) {
+			if (err) {
+				console.log(err)
+			} else {
+				// create new user (row) in table users
+				User.create ({
+					name: 		request.body.name, 
+					email: 		request.body.email,
+					// store hashed password 
+					password: 	hash
+					// catch when name isn't unique, redirect without adding to table users
+				}).catch(Sequelize.ValidationError, function (err) {
+					response.redirect('/?message=' + encodeURIComponent("Your username is already taken, please choose a new name."))
+				})
+				// when name is unique adds to table and redirects to profile.pug
+				.then( () => {
+					// check if newly registered user exists in table users
+					User.findOne({
+						where: {
+							name: request.body.name
+						}
+					}).then(function (user) {
+						// compare (hashed) typed in password, with (hashed) stored password of this user
+						bcrypt.compare(password, user.password, function (err, res) {
+							if(err) {
+								throw err;
+							// if user exists and (hashed) filled in password matches (hashed) password in db
+							} else if (user !== null && res === true) {
+								// start session and redirect to profile
+								request.session.user = user;
+								response.redirect('/profile');
+							}
+						})
+					})
+				})
 			}
-			}).then(function (user) {
-				// if user exists and password in table matched the filled in password
-				if (user !== null && request.body.password === user.password) {
-					// start session and redirect to profile
-					request.session.user = user;
-					response.redirect('/profile');
-				}
-			})
-		})
+		})	
 	// if user didn't fill in register
 	} else if(!request.body.name){
+		// declare variable password which stores the password input under login by user
+		let password = request.body.loginpassword;
+
 		// find user in table users with the same name as filled in by user on loginform
 		User.findOne({
 			where: {
 				name: request.body.loginname
 			}
 		}).then(function (user) {
-			// if user exists and password in table matched the filled in password
-			if (user !== null && request.body.loginpassword === user.password) {
-				// start session and redirect to newsfeed
-				request.session.user = user;
-				response.redirect('/');
-			} else {
-				// redirect to login page and say name or password is incorrect 
-				response.redirect('/?message=' + encodeURIComponent("Invalid name or password."));
-			}
+			// compare (hashed) input by user for password under login, to his/her stored (hashed) password
+			bcrypt.compare(password, user.password, function (err, res) {
+				if(err) {
+					throw err;
+				} else {
+					// if user exists and (hashed) password in table matched the filled in (hashed) password
+					if (user !== null && res === true) {
+						// start session and redirect to newsfeed
+						request.session.user = user;
+						response.redirect('/');
+					} else {
+						// redirect to login page and say name or password is incorrect 
+						response.redirect('/?message=' + encodeURIComponent("Invalid name or password."));
+					}
+				}
+			})
 		}, function (error) {
 			response.redirect('/?message=' + encodeURIComponent("Invalid name or password."));
 		});
