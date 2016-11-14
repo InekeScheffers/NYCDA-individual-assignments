@@ -142,14 +142,19 @@ app.post('/', (request, response) => {
 					User.findOne({
 						where: {
 							name: request.body.name
-					}
-					}).then(function (user) {
-						// if user exists and (hashed) filled in password matches (hashed) password in db
-						if (user !== null && hash === user.password) {
-							// start session and redirect to profile
-							request.session.user = user;
-							response.redirect('/profile');
 						}
+					}).then(function (user) {
+						// compare (hashed) typed in password, with (hashed) stored password of this user
+						bcrypt.compare(password, user.password, function (err, res) {
+							if(err) {
+								throw err;
+							// if user exists and (hashed) filled in password matches (hashed) password in db
+							} else if (user !== null && res === true) {
+								// start session and redirect to profile
+								request.session.user = user;
+								response.redirect('/profile');
+							}
+						})
 					})
 				})
 			}
