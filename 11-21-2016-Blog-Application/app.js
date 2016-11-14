@@ -118,7 +118,7 @@ app.get('/post', (request, response) => {
 app.post('/', (request, response) => {
 	// if user didn't fill in login
 	if(!request.body.loginname){
-		// declare variable password which stores the password input by users
+		// declare variable password which stores the password input under registration by user
 		let password = request.body.password;
 
 		// hash password, and store hashed password in password column in table users
@@ -156,23 +156,31 @@ app.post('/', (request, response) => {
 		})	
 	// if user didn't fill in register
 	} else if(!request.body.name){
-		// declare variable password which stores the password input by users
+		// declare variable password which stores the password input under login by user
 		let password = request.body.loginpassword;
+
 		// find user in table users with the same name as filled in by user on loginform
 		User.findOne({
 			where: {
 				name: request.body.loginname
 			}
 		}).then(function (user) {
-			// if user exists and password in table matched the filled in password
-			if (user !== null && request.body.loginpassword === user.password) {
-				// start session and redirect to newsfeed
-				request.session.user = user;
-				response.redirect('/');
-			} else {
-				// redirect to login page and say name or password is incorrect 
-				response.redirect('/?message=' + encodeURIComponent("Invalid name or password."));
-			}
+			// compare (hashed) input by user for password under login, to his/her stored (hashed) password
+			bcrypt.compare(password, user.password, function (err, res) {
+				if(err) {
+					throw err;
+				} else {
+					// if user exists and (hashed) password in table matched the filled in (hashed) password
+					if (user !== null && res === true) {
+						// start session and redirect to newsfeed
+						request.session.user = user;
+						response.redirect('/');
+					} else {
+						// redirect to login page and say name or password is incorrect 
+						response.redirect('/?message=' + encodeURIComponent("Invalid name or password."));
+					}
+				}
+			})
 		}, function (error) {
 			response.redirect('/?message=' + encodeURIComponent("Invalid name or password."));
 		});
