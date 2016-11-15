@@ -163,8 +163,9 @@ app.post('/', (request, response) => {
 					// store hashed password 
 					password: 	hash
 					// catch when name isn't unique, redirect without adding to table users
-				}).catch(Sequelize.ValidationError, (err) => {
+				}).catch( (err) => {
 					response.redirect('/?message=' + encodeURIComponent("Your username is already taken, please choose a new name."));
+					throw err
 				})
 				// when name is unique
 				.then( () => {
