@@ -30,7 +30,7 @@ app.use(session({
 app.set('view engine', 'pug')
 app.set('views', __dirname + '/views')
 
-// create model for tables users
+// create model for tables users, posts and comments
 let User = db.define('user', {
 	// say name has to be unique in this table for login purposes
 	name: {type: Sequelize.STRING, unique: true},
@@ -39,8 +39,6 @@ let User = db.define('user', {
 })
 
 let Post = db.define('post', {
-	// this should be deleted
-	//name: Sequelize.STRING,
 	body: Sequelize.TEXT
 })
 
@@ -67,36 +65,38 @@ db.sync({force:true})
 // when home is requested
 app.get('/', (request, response) => {
 	let user = request.session.user;
-	// if a user is logged in, started a session, render newsfeed
+	// if a user is logged in/started a session, render newsfeed
 	if(user) {
-		// select * from posts
+		// select * from posts, include user data for userId's attached to these posts
 		Post.findAll({
 			include: [User]
 		}).then((posts)=> {
-			// render all-comments and send decodedResults array to all-comments.pug
-			response.render('newsfeed', {data: posts});
+			// render newsfeed and send all posts to newsfeed.pug
+			response.render('newsfeed', {posts: posts});
 		})
 	} else {
-		// else render register/login
+		// else render register/login, send (possible) message to login.pug
 		console.log("About to render the register/login page...");
 		response.render('login', {message: request.query.message})
 	}
 })
 
-// when home is requested render localhost:8000/profile
+// when profile is requested render localhost:8000/profile
 app.get('/profile', (request, response) => {
 	let user = request.session.user;
-	// if a user is logged in, started a session, render profile
+	// if a user is logged in/started a session, render profile
 	if (user) {
 		// select * from posts
+		// where userId is the id of the user of this session
+		// include it's user's data
 		Post.findAll({
 			where: {
 				userId: request.session.user.id
 			}, 
 			include: [User]
 		}).then((posts)=> {
-			// render all-comments and send decodedResults array to all-comments.pug
-			response.render('profile', {user: user, data: posts});
+			// render profile and send user data and data of all his/hers posts to profile.pug 
+			response.render('profile', {user: user, posts: posts});
 		})
 	} else {
 		// else redirect to log in and show message
@@ -119,6 +119,8 @@ app.get('/logout', (request, response) => {
 // when specific post is requested by clicking to leave a comment on it
 app.get('/post', (request, response) => {
 	Promise.all([
+		// find the specific post with the postId of the post the user wants to comment on
+		// include user data of the user that posted this post
 		Post.findOne({
 			where: {
 				// this id of specific post is sent in the comment-url
@@ -126,6 +128,8 @@ app.get('/post', (request, response) => {
 			}, 
 			include: [User]
 		}),
+		// select * from comments with the postId matching the postId of the post the user wants to comment on
+		// include user data of the user that commented this comment
 		Comment.findAll({
 			where: {
 				postId: request.query.id
@@ -133,16 +137,16 @@ app.get('/post', (request, response) => {
 			include: [User]
 		})
 	]).then((allPromises)=>{
+		// add postId of this specific post to session object
 		request.session.postid = request.query.id
-		console.log(allPromises[1])
-		// render /post and send data to pug file of this specific post
+		// render /post and send specific post with it's user data and all comments with matching postId (with their users' data) to post.pug
 		response.render('post', {post: allPromises[0], comments: allPromises[1]})
 	})
 })
 
-// When submit button is clicked on leave a login.pug
+// When submit button is clicked on login.pug
 app.post('/', (request, response) => {
-	// if user didn't fill in login
+	// if user didn't fill in login (but thus filled in register)
 	if(!request.body.loginname){
 		// declare variable password which stores the password input under registration by user
 		let password = request.body.password;
@@ -162,7 +166,7 @@ app.post('/', (request, response) => {
 				}).catch(Sequelize.ValidationError, function (err) {
 					response.redirect('/?message=' + encodeURIComponent("Your username is already taken, please choose a new name."))
 				})
-				// when name is unique adds to table and redirects to profile.pug
+				// when name is unique
 				.then( () => {
 					// check if newly registered user exists in table users
 					User.findOne({
@@ -185,7 +189,7 @@ app.post('/', (request, response) => {
 				})
 			}
 		})	
-	// if user didn't fill in register
+	// if user didn't fill in register (thus filled in login)
 	} else if(!request.body.name){
 		// declare variable password which stores the password input under login by user
 		let password = request.body.loginpassword;
@@ -223,11 +227,11 @@ app.post('/post', (request, response) => {
         // create new post (row) in table posts
 		Post.create ({
 			body: request.body.body,
+			// add userId with id of the user of this session, added to session object after login/registering app.get('/')
 			userId: request.session.user.id
 		})
 		.then( () => {
-			// redirect to all-comments, so we only render all-users in app.get(all-users), so we don't keep on storing the same
-			// message when we reload after submitting
+			// redirect to newsfeed with new post added on top
 			response.redirect('/');
 		})
 })
@@ -237,12 +241,13 @@ app.post('/comment', (request, response) => {
         // create new post (row) in table posts
 		Comment.create ({
 			body: request.body.body,
+			// add postId with id of this specific post added to session object in app.get('/post')
 			postId: request.session.postid,
+			// add userId with id of the user of this session, added to session object after login/registering app.get('/')
 			userId: request.session.user.id
 		})
 		.then( () => {
-			// redirect to all-comments, so we only render all-users in app.get(all-users), so we don't keep on storing the same
-			// message when we reload after submitting
+			// redirect to /postspecificpostid with new comment above
 			response.redirect('/post/?id=' + request.session.postid);
 		})
 })

@@ -9,11 +9,15 @@ html
 					a(href='/profile') Profile
 		form(name='post-form' method='POST' action='/post')
 			label
+			//- textarea cause this is bigger than input
+			//- required makes sure html will not submit (make post request to back end) when field is empty
 			textarea#body(type='text' placeholder='Your message' name='body' row='4' required)
 			button(type='submit') Post
 		h1 Newsfeed
-		- for (let i = data.length - 1; i >= 0; i--)
-			p #{data[i].user.name}
-			p #{data[i].body}
-			p #{data[i].createdAt}
-			a(href='/post/?id=' + data[i].id) Comment
+		//- data (posts) is send from app.get('/') when rendering newsfeed
+		//- all posts in database starting from last one
+		- for (let i = posts.length - 1; i >= 0; i--)
+			p #{posts[i].user.name}
+			p #{posts[i].body}
+			p #{posts[i].createdAt}
+			a(href='/post/?id=' + posts[i].id) Comment
