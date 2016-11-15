@@ -15,6 +15,7 @@ html
 		//- all own posts starting at last one
 		h1 My posts
 		- for (let i = data.length - 1; i >= 0; i--)
-			p #{data[i].name}
+			p #{data[i].user.name}
 			p #{data[i].body}
 			p #{data[i].createdAt}
+			a(href='/post/?id=' + data[i].id) Comment

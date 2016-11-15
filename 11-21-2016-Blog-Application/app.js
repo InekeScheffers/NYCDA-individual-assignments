@@ -40,7 +40,7 @@ let User = db.define('user', {
 
 let Post = db.define('post', {
 	// this should be deleted
-	name: Sequelize.STRING,
+	//name: Sequelize.STRING,
 	body: Sequelize.TEXT
 })
 
@@ -49,13 +49,14 @@ let Comment = db.define('comment', {
 })
 
 // define relations
+User.hasMany(Post)
+Post.belongsTo(User)
+User.hasMany(Comment)
+Comment.belongsTo(User)
 Post.hasMany(Comment)
 Comment.belongsTo(Post)
 
-// {force: true}: so this table is deleted from database
-// User.sync({force:true})
-// Post.sync({force:true})
-// Comment.sync({force:true})
+// {force: true}: so all tables in db are deleted
 db.sync({force:true})
 
 // test if app works
@@ -69,7 +70,9 @@ app.get('/', (request, response) => {
 	// if a user is logged in, started a session, render newsfeed
 	if(user) {
 		// select * from posts
-		Post.findAll().then((posts)=> {
+		Post.findAll({
+			include: [User]
+		}).then((posts)=> {
 			// render all-comments and send decodedResults array to all-comments.pug
 			response.render('newsfeed', {data: posts});
 		})
@@ -88,8 +91,9 @@ app.get('/profile', (request, response) => {
 		// select * from posts
 		Post.findAll({
 			where: {
-				name: user.name
-			}
+				userId: request.session.user.id
+			}, 
+			include: [User]
 		}).then((posts)=> {
 			// render all-comments and send decodedResults array to all-comments.pug
 			response.render('profile', {user: user, data: posts});
@@ -119,17 +123,18 @@ app.get('/post', (request, response) => {
 			where: {
 				// this id of specific post is sent in the comment-url
 				id: request.query.id
-				// include: [User]
-			}
+			}, 
+			include: [User]
 		}),
 		Comment.findAll({
 			where: {
 				postId: request.query.id
-				// include: [User]
-			}
+			}, 
+			include: [User]
 		})
 	]).then((allPromises)=>{
 		request.session.postid = request.query.id
+		console.log(allPromises[1])
 		// render /post and send data to pug file of this specific post
 		response.render('post', {post: allPromises[0], comments: allPromises[1]})
 	})
@@ -217,9 +222,8 @@ app.post('/', (request, response) => {
 app.post('/post', (request, response) => {
         // create new post (row) in table posts
 		Post.create ({
-//////////!!!!!!!!!!			// added name of current user, but didn't relate tables users with posts now!
-			name: request.session.user.name,
-			body: request.body.body
+			body: request.body.body,
+			userId: request.session.user.id
 		})
 		.then( () => {
 			// redirect to all-comments, so we only render all-users in app.get(all-users), so we don't keep on storing the same
@@ -233,7 +237,8 @@ app.post('/comment', (request, response) => {
         // create new post (row) in table posts
 		Comment.create ({
 			body: request.body.body,
-			postId: request.session.postid
+			postId: request.session.postid,
+			userId: request.session.user.id
 		})
 		.then( () => {
 			// redirect to all-comments, so we only render all-users in app.get(all-users), so we don't keep on storing the same

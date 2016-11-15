@@ -7,7 +7,7 @@ html
 					a(href='/') Newsfeed
 				li
 					a(href='/profile') Profile
-		p=post.name
+		p=post.user.name
 		p=post.body
 		p=post.createdAt
 		form(name='comment-form' method='POST' action='/comment')
@@ -16,5 +16,6 @@ html
 			button(type='submit') Comment
 		//- show all comments, last one first
 		- for (let i = comments.length - 1; i >= 0; i--)
+			p #{comments[i].user.name}
 			p #{comments[i].body}
 			p #{comments[i].createdAt}
