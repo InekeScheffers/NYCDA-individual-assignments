@@ -7,8 +7,6 @@ html
 					a(href='/') Newsfeed
 				li
 					a(href='/profile') Profile
-		
-		//- all posts starting at last one, clickable to view specific posts and its comments
 		form(name='post-form' method='POST' action='/post')
 			label
 			textarea#body(type='text' placeholder='Your message' name='body' row='4' required)

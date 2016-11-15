@@ -39,13 +39,24 @@ let User = db.define('user', {
 })
 
 let Post = db.define('post', {
+	// this should be deleted
 	name: Sequelize.STRING,
 	body: Sequelize.TEXT
 })
 
+let Comment = db.define('comment', {
+	body: Sequelize.TEXT
+})
+
+// define relations
+Post.hasMany(Comment)
+Comment.belongsTo(Post)
+
 // {force: true}: so this table is deleted from database
-User.sync({force:true})
-Post.sync({force:true})
+// User.sync({force:true})
+// Post.sync({force:true})
+// Comment.sync({force:true})
+db.sync({force:true})
 
 // test if app works
 // app.get('/ping', (request, response) => {
@@ -103,14 +114,24 @@ app.get('/logout', (request, response) => {
 
 // when specific post is requested by clicking to leave a comment on it
 app.get('/post', (request, response) => {
-	Post.findOne({
-		where: {
-			// this id of specific post is sent in the comment-url
-			id: request.query.id
-		}
-	}).then((post)=>{
+	Promise.all([
+		Post.findOne({
+			where: {
+				// this id of specific post is sent in the comment-url
+				id: request.query.id
+				// include: [User]
+			}
+		}),
+		Comment.findAll({
+			where: {
+				postId: request.query.id
+				// include: [User]
+			}
+		})
+	]).then((allPromises)=>{
+		request.session.postid = request.query.id
 		// render /post and send data to pug file of this specific post
-		response.render('post', {post: post})
+		response.render('post', {post: allPromises[0], comments: allPromises[1]})
 	})
 })
 
@@ -204,6 +225,20 @@ app.post('/post', (request, response) => {
 			// redirect to all-comments, so we only render all-users in app.get(all-users), so we don't keep on storing the same
 			// message when we reload after submitting
 			response.redirect('/');
+		})
+})
+
+// When submit button for comments is clicked on specific post page
+app.post('/comment', (request, response) => {
+        // create new post (row) in table posts
+		Comment.create ({
+			body: request.body.body,
+			postId: request.session.postid
+		})
+		.then( () => {
+			// redirect to all-comments, so we only render all-users in app.get(all-users), so we don't keep on storing the same
+			// message when we reload after submitting
+			response.redirect('/post/?id=' + request.session.postid);
 		})
 })
 

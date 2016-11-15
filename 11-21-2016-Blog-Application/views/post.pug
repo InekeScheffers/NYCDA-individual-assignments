@@ -10,3 +10,11 @@ html
 		p=post.name
 		p=post.body
 		p=post.createdAt
+		form(name='comment-form' method='POST' action='/comment')
+			label
+			textarea#body(type='text' placeholder='Your comment' name='body' row='4' required)
+			button(type='submit') Comment
+		//- show all comments, last one first
+		- for (let i = comments.length - 1; i >= 0; i--)
+			p #{comments[i].body}
+			p #{comments[i].createdAt}
