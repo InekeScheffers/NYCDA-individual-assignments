@@ -24,7 +24,7 @@ app.use(session({
 	secret: 'oh wow very secret much security',
 	resave: true,
 	saveUninitialized: false
-}));
+}))
 
 // set view engine to pug & set where the view engine is located
 app.set('view engine', 'pug')
@@ -77,7 +77,7 @@ app.get('/', (request, response) => {
 	} else {
 		// else render register/login, send (possible) message to login.pug
 		console.log("About to render the register/login page...");
-		response.render('login', {message: request.query.message})
+		response.render('login', {message: request.query.message});
 	}
 })
 
@@ -107,9 +107,9 @@ app.get('/profile', (request, response) => {
 // when logout is requested
 app.get('/logout', (request, response) => {
 	// destroy session
-	request.session.destroy(function(error) {
-		if(error) {
-			throw error;
+	request.session.destroy( (err) => {
+		if(err) {
+			throw err;
 		}
 		// redirect to log in page and show message
 		response.redirect('/?message=' + encodeURIComponent("Successfully logged out."));
@@ -138,9 +138,9 @@ app.get('/post', (request, response) => {
 		})
 	]).then((allPromises)=>{
 		// add postId of this specific post to session object
-		request.session.postid = request.query.id
+		request.session.postid = request.query.id;
 		// render /post and send specific post with it's user data and all comments with matching postId (with their users' data) to post.pug
-		response.render('post', {post: allPromises[0], comments: allPromises[1]})
+		response.render('post', {post: allPromises[0], comments: allPromises[1]});
 	})
 })
 
@@ -152,9 +152,9 @@ app.post('/', (request, response) => {
 		let password = request.body.password;
 
 		// hash password, and store hashed password in password column in table users
-		bcrypt.hash(password, 8, function(err, hash) {
+		bcrypt.hash(password, 8, (err, hash) => {
 			if (err) {
-				console.log(err)
+				throw err;
 			} else {
 				// create new user (row) in table users
 				User.create ({
@@ -163,8 +163,8 @@ app.post('/', (request, response) => {
 					// store hashed password 
 					password: 	hash
 					// catch when name isn't unique, redirect without adding to table users
-				}).catch(Sequelize.ValidationError, function (err) {
-					response.redirect('/?message=' + encodeURIComponent("Your username is already taken, please choose a new name."))
+				}).catch(Sequelize.ValidationError, (err) => {
+					response.redirect('/?message=' + encodeURIComponent("Your username is already taken, please choose a new name."));
 				})
 				// when name is unique
 				.then( () => {
@@ -173,9 +173,9 @@ app.post('/', (request, response) => {
 						where: {
 							name: request.body.name
 						}
-					}).then(function (user) {
+					}).then( (user) => {
 						// compare (hashed) typed in password, with (hashed) stored password of this user
-						bcrypt.compare(password, user.password, function (err, res) {
+						bcrypt.compare(password, user.password, (err, res) => {
 							if(err) {
 								throw err;
 							// if user exists and (hashed) filled in password matches (hashed) password in db
@@ -199,9 +199,9 @@ app.post('/', (request, response) => {
 			where: {
 				name: request.body.loginname
 			}
-		}).then(function (user) {
+		}).then( (user) => {
 			// compare (hashed) input by user for password under login, to his/her stored (hashed) password
-			bcrypt.compare(password, user.password, function (err, res) {
+			bcrypt.compare(password, user.password, (err, res) => {
 				if(err) {
 					throw err;
 				} else {
@@ -216,7 +216,7 @@ app.post('/', (request, response) => {
 					}
 				}
 			})
-		}, function (error) {
+		}, (err) => {
 			response.redirect('/?message=' + encodeURIComponent("Invalid name or password."));
 		});
 		}
