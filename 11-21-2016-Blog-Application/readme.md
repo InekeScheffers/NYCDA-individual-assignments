@@ -14,3 +14,5 @@ An app that let's users register, log-in, log-out. Post posts, view all posts on
 * Promises
 * Callbacks
 * Hashed passwords
+* modules
+* routes
