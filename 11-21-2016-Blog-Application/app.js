@@ -22,14 +22,18 @@ app.set('view engine', 'pug')
 app.set('views', __dirname + '/views')
 
 // require route/module index.js
-let indexRouter = require(__dirname + '/routes/index')
+let newsfeedRouter = require(__dirname + '/routes/newsfeed')
+let registerRouter = require(__dirname + '/routes/register')
+let loginRouter = require(__dirname + '/routes/login')
 let profileRouter = require(__dirname + '/routes/profile')
 let logoutRouter = require(__dirname + '/routes/logout')
 let postRouter = require(__dirname + '/routes/post')
 let commentRouter = require(__dirname + '/routes/comment')
 
 // use routes
-app.use('/', indexRouter)
+app.use('/', newsfeedRouter)
+app.use('/', registerRouter)
+app.use('/', loginRouter)
 app.use('/', profileRouter)
 app.use('/', logoutRouter)
 app.use('/', postRouter)

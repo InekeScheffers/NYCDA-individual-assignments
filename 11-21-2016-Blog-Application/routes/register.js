@@ -12,29 +12,12 @@ let db = require(__dirname + '/../modules/database')
 // Parse incoming request bodies in a middleware before your handlers, availabe under the req.body property
 router.use(bodyParser.urlencoded({ extended: true }))
 
-router.route('/')
-	// when home is requested
-	.get((request, response) => {
-		let user = request.session.user;
-		// if a user is logged in/started a session, render newsfeed
-		if(user) {
-			// select * from posts, include user data for userId's attached to these posts
-			db.Post.findAll({
-				include: [db.User]
-			}).then((posts)=> {
-				// render newsfeed and send all posts to newsfeed.pug
-				response.render('newsfeed', {posts: posts});
-			})
-		} else {
-			// else render register/login, send (possible) message to login.pug
-			console.log("About to render the register/login page...");
-			response.render('login', {message: request.query.message});
-		}
-	})
-	// When submit button is clicked on login.pug
+router.route('/register')	
 	.post((request, response) => {
 		// if user didn't fill in login (but thus filled in register)
-		if(!request.body.loginname){
+		if(!request.body.name || !request.body.email || !request.body.password){
+			response.redirect('/?message=' + encodeURIComponent("Please fill in all fields to register"));
+		} else {
 			// declare variable password which stores the password input under registration by user
 			let password = request.body.password;
 
@@ -77,39 +60,8 @@ router.route('/')
 					})
 				}
 			})	
-		// if user didn't fill in register (thus filled in login)
-		} else if(!request.body.name){
-			// declare variable password which stores the password input under login by user
-			let password = request.body.loginpassword;
-
-			// find user in table users with the same name as filled in by user on loginform
-			db.User.findOne({
-				where: {
-					name: request.body.loginname
-				}
-			}).then( (user) => {
-				// compare (hashed) input by user for password under login, to his/her stored (hashed) password
-				bcrypt.compare(password, user.password, (err, res) => {
-					if(err) {
-						throw err;
-					} else {
-						// if user exists and (hashed) password in table matched the filled in (hashed) password
-						if (user !== null && res === true) {
-							// start session and redirect to newsfeed
-							request.session.user = user;
-							response.redirect('/');
-						} else {
-							// redirect to login page and say name or password is incorrect 
-							response.redirect('/?message=' + encodeURIComponent("Invalid name or password."));
-						}
-					}
-				})
-			}, (err) => {
-				response.redirect('/?message=' + encodeURIComponent("Invalid name or password."));
-			});
 		}
-})
-
+	})
 
 // module.exports says: the current file when required will send back this thing
 // router refers to variable router = object with all router-routes in it
