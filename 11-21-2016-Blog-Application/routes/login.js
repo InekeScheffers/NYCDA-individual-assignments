@@ -40,12 +40,12 @@ router.route('/login')
 							response.redirect('/');
 						} else {
 							// redirect to login page and say name or password is incorrect 
-							response.redirect('/?message=' + encodeURIComponent("Invalid name or password."));
+							response.redirect('/?message=' + encodeURIComponent("Invalid name or password"));
 						}
 					}
 				})
 			}, (err) => {
-				response.redirect('/?message=' + encodeURIComponent("Invalid name or password."));
+				response.redirect('/?message=' + encodeURIComponent("Invalid name or password"));
 			});
 		}
 	})

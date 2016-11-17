@@ -12,7 +12,7 @@ router.route('/logout')
 				throw err;
 			}
 			// redirect to log in page and show message
-			response.redirect('/?message=' + encodeURIComponent("Successfully logged out."));
+			response.redirect('/?message=' + encodeURIComponent("Successfully logged out"));
 		})
 	})
 

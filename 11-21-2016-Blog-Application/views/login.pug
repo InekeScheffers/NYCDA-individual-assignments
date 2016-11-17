@@ -3,31 +3,49 @@ html
 	body
 		include includes/nav.pug
 		div#start-content.container
-			h1 Register
-			form(action='/register' method='POST')
-				label name
-				//- required makes sure html will not submit (make post request to back end) when a field is empty
-				//- pattern that it isn't more than 255 characters
-				input#name(name='name' placeholder="User name" required pattern=".{1,255}" title="User name can't be more than 255 characters")
-				label email
-				//- type makes sure html will not submit (make post request to back end) when a field gets the wrong type of input
-				input#email(name='email' placeholder="Email" type='email' required pattern=".{1,255}" title="Email can't be more than 255 characters")
-				label password
-				//- pattern makes sure lentgh is at least 8
-				//- onchange that it matches confirmPassword
-				input#password(name='password' placeholder="Password" type='password' pattern=".{8,255}" required onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 8 characters' : ''); if(this.checkValidity()) form.confirmPassword.pattern = this.value;")
-				label confirm password
-				//- pattern makes sure lentgh is at least 8
-				//- onchange that it matches confirmPassword
-				input#confirmPassword(name='confirmPassword' type='password' pattern=".{8,255}" required onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Please enter the same password' : '');" placeholder="Confirm password")
-				input(type='submit' value='register' id='submit')
+			div.col-sm-10
+				h1 Register
+			form.form-horizontal(action='/register' method='POST')
+				div.form-group
+					div.col-sm-10
+						label
+						//- required makes sure html will not submit (make post request to back end) when a field is empty
+						//- pattern that it isn't more than 255 characters
+						input#name(name='name' placeholder="User name" required pattern=".{1,255}" title="User name can't be more than 255 characters")
+				div.form-group
+					div.col-sm-10
+						label
+						//- type makes sure html will not submit (make post request to back end) when a field gets the wrong type of input
+						input#email(name='email' placeholder="Email" type='email' required pattern=".{1,255}" title="Email can't be more than 255 characters")
+				div.form-group
+					div.col-sm-10
+						label
+						//- pattern makes sure lentgh is at least 8
+						//- onchange that it matches confirmPassword
+						input#password(name='password' placeholder="Password" type='password' pattern=".{8,255}" required onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 8 characters' : ''); if(this.checkValidity()) form.confirmPassword.pattern = this.value;")
+				div.form-group
+					div.col-sm-10
+						label
+						//- pattern makes sure lentgh is at least 8
+						//- onchange that it matches confirmPassword
+						input#confirmPassword(name='confirmPassword' type='password' pattern=".{8,255}" required onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Please enter the same password' : '');" placeholder="Confirm password")
+				div#form-button.form-group
+					div.col-sm-10
+						button.btn.btn-primary.btn-lg(type='submit') Register
 			h1 Log in
-			form(action='/login' method='POST')
-				label name
-				input#loginname(name='loginname' placeholder="User name" required autofocus pattern=".{1,255}" title="User name can't be more than 255 characters")
-				label password
-				input#loginpassword(name='loginpassword' placeholder="Password" type='password' required pattern=".{1,255}" title="Password can't be more than 255 characters")
-				input(type='submit' value='login' id='submit')
+			form.form-horizontal(action='/login' method='POST')
+				div.form-group
+					div.col-sm-10
+						label
+						input#loginname(name='loginname' placeholder="User name" required autofocus pattern=".{1,255}" title="User name can't be more than 255 characters")
+				div.form-group
+					div.col-sm-10
+						label
+						input#loginpassword(name='loginpassword' placeholder="Password" type='password' required pattern=".{1,255}" title="Password can't be more than 255 characters")
+				div#form-button.form-group
+					div.col-sm-10
+						button.btn.btn-primary.btn-lg(type='submit') Log in
 			//- shows message when it's send from the backend 
-			h2=message
+			div.col-sm-10
+				h5=message
 		include includes/footer.pug

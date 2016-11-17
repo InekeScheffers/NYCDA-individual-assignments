@@ -43,7 +43,7 @@ router.route('/register')
 						password: 	hash
 						// catch when name isn't unique, redirect without adding to table users
 					}).catch( (err) => {
-						response.redirect('/?message=' + encodeURIComponent("Your username is already taken, please choose a new name."));
+						response.redirect('/?message=' + encodeURIComponent("Your username is already taken, please choose a new name"));
 						throw err
 					})
 					// when name is unique

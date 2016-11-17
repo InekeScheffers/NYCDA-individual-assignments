@@ -29,7 +29,7 @@ router.route('/profile')
 			})
 		} else {
 			// else redirect to log in and show message
-			response.redirect('/?message=' + encodeURIComponent("Please log in to view your profile."));
+			response.redirect('/?message=' + encodeURIComponent("Please log in to view your profile"));
 		}
 	})
 
