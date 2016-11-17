@@ -28,6 +28,10 @@ router.route('/login')
 					name: request.body.loginname
 				}
 			}).then( (user) => {
+				if (!user) {
+					response.redirect('/?message=' + encodeURIComponent("Invalid name or password"));
+					return
+				}
 				// compare (hashed) input by user for password under login, to his/her stored (hashed) password
 				bcrypt.compare(password, user.password, (err, res) => {
 					if(err) {
@@ -44,9 +48,7 @@ router.route('/login')
 						}
 					}
 				})
-			}, (err) => {
-				response.redirect('/?message=' + encodeURIComponent("Invalid name or password"));
-			});
+			})
 		}
 	})
 
