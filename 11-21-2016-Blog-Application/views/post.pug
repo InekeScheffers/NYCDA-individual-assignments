@@ -1,25 +1,22 @@
 html
 	include includes/header.pug
 	body
-		nav
-			ul
-				li
-					a(href='/') Newsfeed
-				li
-					a(href='/profile') Profile
-		//- data (post) is send from app.get('/post')
-		p=post.user.name
-		p=post.body
-		p=post.createdAt
-		form(name='comment-form' method='POST' action='/comment')
-			label
-			//- input can't be longer than 9000, cuts of after that
-			textarea#body(type='text' placeholder='Your comment' name='body' maxlength="9000" required)
-			button(type='submit') Comment
-		//- data (comments) is send from app.get('/post')
-		//- show all comments for this post, last one first
-		- for (let i = comments.length - 1; i >= 0; i--)
-			p #{comments[i].user.name}
-			p #{comments[i].body}
-			p #{comments[i].createdAt}
-		h2=message
+		include includes/nav.pug
+		div#start-content.container
+			//- data (post) is send from app.get('/post')
+			p=post.user.name
+			p=post.body
+			p=post.createdAt
+			form(name='comment-form' method='POST' action='/comment')
+				label
+				//- input can't be longer than 9000, cuts of after that
+				textarea#body(type='text' placeholder='Your comment' name='body' maxlength="9000" required)
+				button(type='submit') Comment
+			//- data (comments) is send from app.get('/post')
+			//- show all comments for this post, last one first
+			- for (let i = comments.length - 1; i >= 0; i--)
+				p #{comments[i].user.name}
+				p #{comments[i].body}
+				p #{comments[i].createdAt}
+			h2=message
+		include includes/footer.pug

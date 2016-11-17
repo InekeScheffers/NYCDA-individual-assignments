@@ -1,23 +1,20 @@
 html
 	include includes/header.pug
-	body
-		nav
-			ul
-				li
-					a(href='/') Newsfeed
-				li
-					a(href='/profile') Profile
-		//- this data (user) is send from app.get('/profile')
-		h2=user.name
-		h3=user.email
+	body#profile
+		include includes/nav.pug
+		div#start-content.container
+			//- this data (user) is send from app.get('/profile')
+			h2=user.name
+			h3=user.email
 
-		a(href='/logout') log out
+			a(href='/logout') log out
 
-		h1 My posts
-		//- all own posts starting at last one
-		//- data (posts) is send from app.get('/profile')
-		- for (let i = posts.length - 1; i >= 0; i--)
-			p #{posts[i].user.name}
-			p #{posts[i].body}
-			p #{posts[i].createdAt}
-			a(href='/post/?id=' + posts[i].id) Comment
+			h1 My posts
+			//- all own posts starting at last one
+			//- data (posts) is send from app.get('/profile')
+			- for (let i = posts.length - 1; i >= 0; i--)
+				p #{posts[i].user.name}
+				p #{posts[i].body}
+				p #{posts[i].createdAt}
+				a(href='/post/?id=' + posts[i].id) Comment
+		include includes/footer.pug

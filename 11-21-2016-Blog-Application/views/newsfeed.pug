@@ -1,25 +1,22 @@
 html
 	include includes/header.pug
-	body
-		nav
-			ul
-				li
-					a(href='/') Newsfeed
-				li
-					a(href='/profile') Profile
-		form(name='post-form' method='POST' action='/post')
-			label
-			//- textarea cause this is bigger than input
-			//- required makes sure html will not submit (make post request to back end) when field is empty
-			//- input can't be longer than 9000, cuts of after that
-			textarea#body(type='text' placeholder='Your message' name='body' maxlength="9000" required)
-			button(type='submit') Post
-		h1 Newsfeed
-		//- data (posts) is send from app.get('/') when rendering newsfeed
-		//- all posts in database starting from last one
-		- for (let i = posts.length - 1; i >= 0; i--)
-			p #{posts[i].user.name}
-			p #{posts[i].body}
-			p #{posts[i].createdAt}
-			a(href='/post/?id=' + posts[i].id) Comment
-		h2=message
+	body#newsfeed
+		include includes/nav.pug
+		div#start-content.container
+			form(name='post-form' method='POST' action='/post')
+				label
+				//- textarea cause this is bigger than input
+				//- required makes sure html will not submit (make post request to back end) when field is empty
+				//- input can't be longer than 9000, cuts of after that
+				textarea#body(type='text' placeholder='Your message' name='body' maxlength="9000" required)
+				button(type='submit') Post
+			h1 Newsfeed
+			//- data (posts) is send from app.get('/') when rendering newsfeed
+			//- all posts in database starting from last one
+			- for (let i = posts.length - 1; i >= 0; i--)
+				p #{posts[i].user.name}
+				p #{posts[i].body}
+				p #{posts[i].createdAt}
+				a(href='/post/?id=' + posts[i].id) Comment
+			h2=message
+		include includes/footer.pug
