@@ -16,3 +16,4 @@ An app that let's users register, log-in, log-out. Post posts, view all posts on
 * Hashed passwords
 * modules
 * routes
+* data validation, client-, database- and serverside

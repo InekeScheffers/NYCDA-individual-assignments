@@ -10,8 +10,12 @@ html
 			//- type makes sure html will not submit (make post request to back end) when a field gets the wrong type of input
 			input#email(name='email' placeholder="Email" type='email' required)
 			label password
+			//- pattern makes sure lentgh is at least 8
+			//- onchange that it matches confirmPassword
 			input#password(name='password' placeholder="Password" type='password' pattern=".{8,}" required onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 8 characters' : ''); if(this.checkValidity()) form.confirmPassword.pattern = this.value;")
 			label confirm password
+			//- pattern makes sure lentgh is at least 8
+			//- onchange that it matches confirmPassword
 			input#confirmPassword(name='confirmPassword' type='password' pattern=".{8,}" required onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Please enter the same password' : '');" placeholder="Confirm password")
 			input(type='submit' value='register' id='submit')
 		h1 Log in

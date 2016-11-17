@@ -16,7 +16,14 @@ router.route('/register')
 	.post((request, response) => {
 		// if user didn't fill in login (but thus filled in register)
 		if(!request.body.name || !request.body.email || !request.body.password){
+			// checks if a field is empty, then redirects with message
 			response.redirect('/?message=' + encodeURIComponent("Please fill in all fields to register"));
+		} else if(request.body.password.length < 8) {
+			// checks if password is shorter than 8 characters, then redirects with message
+			response.redirect('/?message=' + encodeURIComponent("Password must be at least 8 characters long"));
+		} else if(request.body.password != request.body.confirmPassword){
+			// checks if password and confirm password don't match, then redirects with message
+			response.redirect('/?message=' + encodeURIComponent("Please enter the same password twice to register"));
 		} else {
 			// declare variable password which stores the password input under registration by user
 			let password = request.body.password;
