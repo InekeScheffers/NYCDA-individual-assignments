@@ -16,6 +16,8 @@ router.route('/login')
 	.post((request, response) => {
 		if(!request.body.loginname || !request.body.loginpassword){
 			response.redirect('/?message=' + encodeURIComponent("Please fill in all fields to login"));
+		} else if(request.body.loginname.length > 255 || request.body.loginpassword.length > 255) {
+			response.redirect('/?message=' + encodeURIComponent("Input cannot be longer than 255 characters"));
 		} else {
 			// declare variable password which stores the password input under login by user
 			let password = request.body.loginpassword;

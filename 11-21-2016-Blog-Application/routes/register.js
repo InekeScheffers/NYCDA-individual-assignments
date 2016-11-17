@@ -24,6 +24,8 @@ router.route('/register')
 		} else if(request.body.password != request.body.confirmPassword){
 			// checks if password and confirm password don't match, then redirects with message
 			response.redirect('/?message=' + encodeURIComponent("Please enter the same password twice to register"));
+		} else if (request.body.name.length > 255 || request.body.email.length > 255 || request.body.password.length > 255) {
+			response.redirect('/?message=' + encodeURIComponent("Input cannot be longer than 255 characters"));
 		} else {
 			// declare variable password which stores the password input under registration by user
 			let password = request.body.password;

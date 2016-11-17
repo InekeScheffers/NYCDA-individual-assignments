@@ -12,6 +12,10 @@ router.use(bodyParser.urlencoded({ extended: true }))
 router.route('/comment')
 	// When submit button for comments is clicked on specific post page
 	.post((request, response) => {
+		// check if input is longer than 9000, then redirect with message
+		if(request.body.body.length > 9000) {
+			response.redirect('/post/?id=' + request.session.postid + '&message=' + encodeURIComponent("Input cannot be longer than 9000 characters"));
+		} else {
 	        // create new post (row) in table posts
 			db.Comment.create ({
 				body: request.body.body,
@@ -24,6 +28,7 @@ router.route('/comment')
 				// redirect to /postspecificpostid with new comment above
 				response.redirect('/post/?id=' + request.session.postid);
 			})
+		}
 	})
 
 // module.exports says: the current file when required will send back this thing

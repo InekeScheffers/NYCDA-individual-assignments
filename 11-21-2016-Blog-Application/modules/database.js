@@ -16,11 +16,11 @@ let User = db.define('user', {
 })
 
 let Post = db.define('post', {
-	body: Sequelize.TEXT
+	body: Sequelize.STRING(9001)
 })
 
 let Comment = db.define('comment', {
-	body: Sequelize.TEXT
+	body: Sequelize.STRING(9001)
 })
 
 // define relations
