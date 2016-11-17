@@ -17,8 +17,7 @@ html
 					textarea#body.form-control(type='text' placeholder='Your comment' name='body' maxlength="9000" rows="4" required)
 				div#form-button.form-group
 					button.btn.btn-primary.btn-lg(type='submit') Comment
-			div.col-sm-10
-				h1 Comments
+			h1 Comments
 			//- data (comments) is send from app.get('/post')
 			//- show all comments for this post, last one first
 			- for (let i = comments.length - 1; i >= 0; i--)
