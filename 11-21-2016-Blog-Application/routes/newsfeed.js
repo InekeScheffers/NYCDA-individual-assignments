@@ -22,7 +22,7 @@ router.route('/')
 				include: [db.User]
 			}).then((posts)=> {
 				// render newsfeed and send all posts to newsfeed.pug
-				response.render('newsfeed', {posts: posts});
+				response.render('newsfeed', {posts: posts, message: request.query.message});
 			})
 		} else {
 			// else render register/login, send (possible) message to login.pug

@@ -13,7 +13,8 @@ html
 		p=post.createdAt
 		form(name='comment-form' method='POST' action='/comment')
 			label
-			textarea#body(type='text' placeholder='Your comment' name='body' row='4' required)
+			//- input can't be longer than 9000, cuts of after that
+			textarea#body(type='text' placeholder='Your comment' name='body' maxlength="9000" required)
 			button(type='submit') Comment
 		//- data (comments) is send from app.get('/post')
 		//- show all comments for this post, last one first
@@ -21,3 +22,4 @@ html
 			p #{comments[i].user.name}
 			p #{comments[i].body}
 			p #{comments[i].createdAt}
+		h2=message

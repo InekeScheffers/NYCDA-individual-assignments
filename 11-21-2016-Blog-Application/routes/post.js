@@ -36,21 +36,26 @@ router.route('/post')
 			// add postId of this specific post to session object
 			request.session.postid = request.query.id;
 			// render /post and send specific post with it's user data and all comments with matching postId (with their users' data) to post.pug
-			response.render('post', {post: allPromises[0], comments: allPromises[1]});
+			response.render('post', {post: allPromises[0], comments: allPromises[1], message: request.query.message});
 		})
 	})
 	// When submit button for post is clicked on newsfeed
 	.post((request, response) => {
-        // create new post (row) in table posts
-		db.Post.create ({
-			body: request.body.body,
-			// add userId with id of the user of this session, added to session object after login/registering app.get('/')
-			userId: request.session.user.id
-		})
-		.then( () => {
-			// redirect to newsfeed with new post added on top
-			response.redirect('/');
-		})
+		// check if input is longer than 9000, then redirect with message
+		if(request.body.body.length > 9000) {
+			response.redirect('/?message=' + encodeURIComponent("Input cannot be longer than 9000 characters"));
+		} else {
+	        // create new post (row) in table posts
+			db.Post.create ({
+				body: request.body.body,
+				// add userId with id of the user of this session, added to session object after login/registering app.get('/')
+				userId: request.session.user.id
+			})
+			.then( () => {
+				// redirect to newsfeed with new post added on top
+				response.redirect('/');
+			})
+		}
 	})
 
 // module.exports says: the current file when required will send back this thing
