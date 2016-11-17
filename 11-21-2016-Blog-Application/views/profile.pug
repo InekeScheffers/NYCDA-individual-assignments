@@ -3,25 +3,22 @@ html
 	body#profile
 		include includes/nav.pug
 		div#start-content.container
-			div.col-sm-10
-				//- this data (user) is send from app.get('/profile')
-				h3#profiletext=user.name
-				h4#profiletext=user.email
+			//- this data (user) is send from app.get('/profile')
+			h3#profiletext=user.name
+			h4#profiletext=user.email
 			div#form-button
-				div.col-sm-10
-					a(href='/logout')
-						button.btn.btn-primary.btn-lg(type='button') Log out
-			div.col-sm-10
-				h1 My posts
-				//- all own posts starting at last one
-				//- data (posts) is send from app.get('/profile')
-				- for (let i = posts.length - 1; i >= 0; i--)
-					div.panel.panel-default
-						div.panel-heading
-							p#username #{posts[i].user.name} 
-							p#time #{posts[i].createdAt}
-						div.panel-body
-							p #{posts[i].body}
-						div.panel-footer
-							a(href='/post/?id=' + posts[i].id) Comment
+				a(href='/logout')
+					button.btn.btn-primary.btn-lg(type='button') Log out
+			h1 My posts
+			//- all own posts starting at last one
+			//- data (posts) is send from app.get('/profile')
+			- for (let i = posts.length - 1; i >= 0; i--)
+				div.panel.panel-default
+					div.panel-heading
+						p#username #{posts[i].user.name} 
+						p#time #{posts[i].createdAt}
+					div.panel-body
+						p #{posts[i].body}
+					div.panel-footer
+						a(href='/post/?id=' + posts[i].id) Comment
 		include includes/footer.pug
