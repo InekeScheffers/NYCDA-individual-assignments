@@ -18,7 +18,7 @@ h1 {
 	color: #ffffff;
 }
 
-h5 {
+#errormessage {
 	color: darkred;
 }
 
@@ -30,8 +30,34 @@ p {
 	text-align: center;
 }
 
-#form-button, h1, h5 {
+.form-horizontal .form-group {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+#form-button, h1, #errormessage {
 	text-align: center;
+}
+
+#form-button {
+	text-align: right;
+}
+
+#profiletext {
+	text-align: right;
+	color: #ffffff;
+}
+
+.panel-heading #username {
+	font-weight: bold;
+}
+
+.panel-heading #time {
+	font-size: 10px;
+}
+
+.panel-footer {
+	text-align: right;
 }
 
 .footer {

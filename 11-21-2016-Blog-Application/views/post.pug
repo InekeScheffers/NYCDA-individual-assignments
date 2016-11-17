@@ -4,19 +4,29 @@ html
 		include includes/nav.pug
 		div#start-content.container
 			//- data (post) is send from app.get('/post')
-			p=post.user.name
-			p=post.body
-			p=post.createdAt
-			form(name='comment-form' method='POST' action='/comment')
-				label
-				//- input can't be longer than 9000, cuts of after that
-				textarea#body(type='text' placeholder='Your comment' name='body' maxlength="9000" required)
-				button(type='submit') Comment
+			div.panel.panel-default
+				div.panel-heading
+					p#username=post.user.name
+					p#time=post.createdAt
+				div.panel-body
+					p=post.body
+			form.form-horizontal(name='comment-form' method='POST' action='/comment')
+				div.form-group
+					label
+					//- input can't be longer than 9000, cuts of after that
+					textarea#body.form-control(type='text' placeholder='Your comment' name='body' maxlength="9000" rows="4" required)
+				div#form-button.form-group
+					button.btn.btn-primary.btn-lg(type='submit') Comment
+			div.col-sm-10
+				h1 Comments
 			//- data (comments) is send from app.get('/post')
 			//- show all comments for this post, last one first
 			- for (let i = comments.length - 1; i >= 0; i--)
-				p #{comments[i].user.name}
-				p #{comments[i].body}
-				p #{comments[i].createdAt}
-			h2=message
+				div.panel.panel-info
+					div.panel-heading
+						p#username #{comments[i].user.name}
+						p#time #{comments[i].createdAt}
+					div.panel-body
+						p #{comments[i].body}
+			h5#errormessage=message
 		include includes/footer.pug

@@ -3,20 +3,26 @@ html
 	body#newsfeed
 		include includes/nav.pug
 		div#start-content.container
-			form(name='post-form' method='POST' action='/post')
-				label
-				//- textarea cause this is bigger than input
-				//- required makes sure html will not submit (make post request to back end) when field is empty
-				//- input can't be longer than 9000, cuts of after that
-				textarea#body(type='text' placeholder='Your message' name='body' maxlength="9000" required)
-				button(type='submit') Post
+			form.form-horizontal(name='post-form' method='POST' action='/post')
+				div.form-group
+						label
+						//- textarea cause this is bigger than input
+						//- required makes sure html will not submit (make post request to back end) when field is empty
+						//- input can't be longer than 9000, cuts of after that
+						textarea.form-control#body(type='text' placeholder='Your message' name='body' maxlength="9000" rows="4" required)
+				div#form-button.form-group
+						button.btn.btn-primary.btn-lg(type='submit') Post
 			h1 Newsfeed
 			//- data (posts) is send from app.get('/') when rendering newsfeed
 			//- all posts in database starting from last one
 			- for (let i = posts.length - 1; i >= 0; i--)
-				p #{posts[i].user.name}
-				p #{posts[i].body}
-				p #{posts[i].createdAt}
-				a(href='/post/?id=' + posts[i].id) Comment
-			h2=message
+				div.panel.panel-default
+					div.panel-heading
+						p#username #{posts[i].user.name}
+						p#time #{posts[i].createdAt}
+					div.panel-body
+						p #{posts[i].body}
+					div.panel-footer
+						a(href='/post/?id=' + posts[i].id) Comment
+			h5#errormessage=message
 		include includes/footer.pug
