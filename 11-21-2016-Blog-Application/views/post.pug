@@ -14,7 +14,7 @@ html
 				div.form-group
 					label
 					//- input can't be longer than 9000, cuts of after that
-					textarea#body.form-control(type='text' placeholder='Your comment' name='body' maxlength="9000" rows="4" required)
+					textarea#body.form-control(type='text' placeholder='Your comment' name='body' maxlength='9000' rows='4' required)
 				div#form-button.form-group
 					button.btn.btn-primary.btn-lg(type='submit') Comment
 			//- data (comments) is send from app.get('/post')
