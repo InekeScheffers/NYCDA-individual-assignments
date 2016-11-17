@@ -5,19 +5,21 @@ html
 		form(action='/register' method='POST')
 			label name
 			//- required makes sure html will not submit (make post request to back end) when a field is empty
-			input#name(name='name' required)
+			input#name(name='name' placeholder="User name" required)
 			label email
 			//- type makes sure html will not submit (make post request to back end) when a field gets the wrong type of input
-			input#email(name='email' type='email' required)
+			input#email(name='email' placeholder="Email" type='email' required)
 			label password
-			input#password(name='password' type='password' required)
+			input#password(name='password' placeholder="Password" type='password' pattern=".{8,}" required onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 8 characters' : ''); if(this.checkValidity()) form.confirmPassword.pattern = this.value;")
+			label confirm password
+			input#confirmPassword(name='confirmPassword' type='password' pattern=".{8,}" required onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Please enter the same password' : '');" placeholder="Confirm password")
 			input(type='submit' value='register' id='submit')
 		h1 Log in
 		form(action='/login' method='POST')
 			label name
-			input#loginname(name='loginname' required)
+			input#loginname(name='loginname' placeholder="User name" required autofocus)
 			label password
-			input#loginpassword(name='loginpassword' type='password' required)
+			input#loginpassword(name='loginpassword' placeholder="Password" type='password' required)
 			input(type='submit' value='login' id='submit')
 		//- shows message when it's send from the backend 
 		h2=message
