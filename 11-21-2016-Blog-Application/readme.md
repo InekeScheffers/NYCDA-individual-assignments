@@ -4,6 +4,8 @@ An app that let's users register, log-in, log-out. Post posts, view all posts on
 ## Used webpack way to compile sass and automatically recompile
 -> see branches for node-sass and node-sass-middleware ways
 
+## Webpack also compiles js to browser compatible js
+
 * Node
   * express
   * pug
