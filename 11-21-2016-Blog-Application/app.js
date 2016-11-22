@@ -1,6 +1,10 @@
 //include express
 const express = require('express')
 const session = require('express-session')
+// include node-sass
+const sass = require('node-sass')
+// include fs
+const fs = require('fs')
 // create instance of app
 const app = express()
 
@@ -11,6 +15,17 @@ app.use(session({
 	resave: true,
 	saveUninitialized: false
 }))
+
+// render sass when server is started
+sass.render({
+	// file to be compiled
+	file: __dirname + '/static/sass/main.scss',
+	outputStyle: 'compressed'
+	// function gets result
+}, function(err, result) {
+	// write result.css (the css part of the result) to main.css
+	fs.writeFile(__dirname + '/static/css/main.css', result.css, 'utf-8')
+});
 
 // serve static files in express
 // only in app, not in routes: state that html can access js/css files at root: '/'
