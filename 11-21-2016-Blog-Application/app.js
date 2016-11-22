@@ -1,6 +1,8 @@
 //include express
 const express = require('express')
 const session = require('express-session')
+//include node-sass-middleware: recompile automatically, is depended on node-sass, so automatically installs node-sass, don't have to require it
+const sassMiddleware = require('node-sass-middleware');
 // create instance of app
 const app = express()
 
@@ -11,6 +13,20 @@ app.use(session({
 	resave: true,
 	saveUninitialized: false
 }))
+
+// configure node-sass-middleware
+// Note: you must place sass-middleware *before* `express.static` or else it will not work.
+app.use(sassMiddleware({
+    /* Options */
+    src: __dirname + '/static/sass',
+    dest: __dirname + '/static/css',
+    debug: true,
+    outputStyle: 'compressed',
+    prefix:  '/css/'  // Where prefix is at <link rel="stylesheets" href="prefix/style.css"/> 
+    // without prefix: dest: 11-21-2016-Blog-Application/static/css/css/main.css
+    // with: dest: 11-21-2016-Blog-Application/static/css/main.css
+    // it will tell the sass compiler that request file will always be prefixed with /css and this prefix should be ignored
+}));
 
 // serve static files in express
 // only in app, not in routes: state that html can access js/css files at root: '/'
