@@ -12,6 +12,7 @@ An app that let's users register, log-in, log-out. Post posts, view all posts on
   * sequelize
   * express-session
   * bcrypt
+  * node-sass
 * JavaScript
 * jQuery
 * PUG
@@ -24,3 +25,4 @@ An app that let's users register, log-in, log-out. Post posts, view all posts on
 * data validation, client-, database- and serverside
 * Bootstrap
 * CSS
+* Sass
