@@ -4,6 +4,8 @@ An app that let's users register, log-in, log-out. Post posts, view all posts on
 ## Used node-sass way to compile sass and automatically recompile
 -> only recompiles when server is started, so not with every request like node-sass-middleware way
 
+### NOTE: this branch is behind master (which uses webpack to compile), so don't merge! This branch is only for future reference to see how you would use node-sass to compile sass.
+
 * Node
   * express
   * pug
