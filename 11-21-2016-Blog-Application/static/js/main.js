@@ -1,3 +1,8 @@
+// main.js will not touch browser
+// so has to require sass
+// so its compiles in app.js (frontend)
+require('../sass/main.scss')
+
 $(document).ready( () => {
 	$( () => {
 		//highlight current nav
